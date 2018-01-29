@@ -1,0 +1,7 @@
+{
+    "parent": "block/cross",
+    "textures": {
+        "particle": "bionisation3:blocks/lotus",
+        "cross": "bionisation3:blocks/lotus"
+    }
+}

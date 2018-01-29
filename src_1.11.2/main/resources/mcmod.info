@@ -1,0 +1,16 @@
+[
+{
+  "modid": "bionisation3",
+  "name": "Bionisation 3",
+  "description": "Viruses and bacteria in Minecraft",
+  "version": "1.0.0",
+  "mcversion": "1.11.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Thunder(Thunderbird)"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

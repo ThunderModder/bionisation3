@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "bionisation3:blockdisinfector" },
+        "facing=south": { "model": "bionisation3:blockdisinfector", "y": 180 },
+        "facing=west":  { "model": "bionisation3:blockdisinfector", "y": 270 },
+        "facing=east":  { "model": "bionisation3:blockdisinfector", "y": 90 }
+    }
+}
