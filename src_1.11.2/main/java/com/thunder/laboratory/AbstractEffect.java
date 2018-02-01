@@ -162,7 +162,7 @@ public abstract class AbstractEffect implements IBioSample, Serializable {
             else if(!isInfinite) duration--;
             if(isInfinite){
                 this.duration++;
-                if(duration > Constants.MAX_TICKER_VALUE) this.duration = 1;
+                if(duration >= Constants.MAX_TICKER_VALUE) this.duration = 1;
             }
         }
         if(canUpdatePower) {
@@ -181,7 +181,7 @@ public abstract class AbstractEffect implements IBioSample, Serializable {
             else if(!isInfinite) duration--;
             if(isInfinite){
                 this.duration++;
-                if(duration > Constants.MAX_TICKER_VALUE) this.duration = 1;
+                if(duration >= Constants.MAX_TICKER_VALUE) this.duration = 1;
             }
         }
         performEntity(event, entity, type, cap);

@@ -8,7 +8,7 @@ public class Constants {
 
     public static final int MAX_IMMUNITY_LEVEL = 100;
     public static final int MAX_BLOOD_LEVEL = 100;
-    public static final int MAX_TICKER_VALUE = 240000;
+    public static final int MAX_TICKER_VALUE = Integer.MAX_VALUE;
 
     //flowers
     public static final AxisAlignedBB STANDARTAXIS1_AABB = new AxisAlignedBB(0.30000001192092896D, 0.0D, 0.30000001192092896D, 0.699999988079071D, 0.9000000238418579D, 0.699999988079071D);
@@ -192,25 +192,28 @@ public class Constants {
     public static int CHANCE_MUTATION_VIRUS;
     public static int MUTATION_PROCESS_DELAY;
 
-    public static final String DNA_GIANT_VIRUS = "112:781:945:963";
-    public static final String DNA_PTERO_VIRUS = "743:938:275:432";
-    public static final String DNA_ENDER_VIRUS = "954:371:562:183";
-    public static final String DNA_BRAIN_VIRUS = "743:924:756:129";
-    public static final String DNA_WITHER_VIRUS = "547:047:385:345";
-    public static final String DNA_VAMPIRE_VIRUS = "783:195:485:940";
-    public static final String DNA_BLOOD_VIRUS = "961:743:321:751";
-    public static final String DNA_CREEPER_VIRUS = "184:978:314:812";
-    public static final String DNA_RED_VIRUS = "743:186:532:256";
-    public static final String DNA_OCEAN_VIRUS = "756:453:096:138";
-    public static final String DNA_SKULL_VIRUS = "131:874:278:485";
-    public static final String DNA_RABIES_VIRUS = "487:912:412:120";
-    public static final String DNA_POLAR_VIRUS = "671:843:368:941";
-    public static final String DNA_AER_VIRUS = "154:672:371:541";
-    public static final String DNA_DESERT_VIRUS = "486:356:955:175";
-    public static final String DNA_AP_SYMBIOSIS = "352:895:359:195";
-    public static final String DNA_EW_SYMBIOSIS = "780:523:692:483";
-    public static final String DNA_OV_SYMBIOSIS = "145:764:931:823";
-    public static final String DNA_RS_SYMBIOSIS = "741:193:573:471";
+    public static final String DNA_GIANT_VIRUS = "1:12:78:1:94:5:96:3";
+    public static final String DNA_PTERO_VIRUS = "74:3:93:8:27:5:43:2";
+    public static final String DNA_ENDER_VIRUS = "95:4:3:71:56:2:1:83";
+    public static final String DNA_BRAIN_VIRUS = "74:3:92:4:75:6:12:9";
+    public static final String DNA_WITHER_VIRUS = "5:47:04:7:38:5:3:45";
+    public static final String DNA_VAMPIRE_VIRUS = "78:3:19:5:4:85:94:0";
+    public static final String DNA_BLOOD_VIRUS = "9:61:74:3:3:21:75:1";
+    public static final String DNA_CREEPER_VIRUS = "18:4:9:78:3:14:81:2";
+    public static final String DNA_RED_VIRUS = "74:3:18:6:5:32:25:6";
+    public static final String DNA_OCEAN_VIRUS = "75:6:45:3:09:6:13:8";
+    public static final String DNA_SKULL_VIRUS = "13:1:8:74:2:78:48:5";
+    public static final String DNA_RABIES_VIRUS = "48:7:9:12:41:2:1:20";
+    public static final String DNA_POLAR_VIRUS = "67:1:84:3:36:8:94:1";
+    public static final String DNA_AER_VIRUS = "15:4:67:2:3:71:54:1";
+    public static final String DNA_DESERT_VIRUS = "48:6:35:6:9:55:17:5";
+    public static final String DNA_AP_SYMBIOSIS = "35:2:8:95:35:9:19:5";
+    public static final String DNA_EW_SYMBIOSIS = "7:80:52:3:69:2:48:3";
+    public static final String DNA_OV_SYMBIOSIS = "1:45:76:4:93:1:82:3";
+    public static final String DNA_RS_SYMBIOSIS = "74:1:19:3:57:3:47:1";
+
+    //Other
+    public static int CHANCE_LABORATORY_GEN;
 
 
     public static void init(){
@@ -316,8 +319,10 @@ public class Constants {
         CHANCE_DESERT_VIRUS = 25;
         DURATION_DESERT_VIRUS = 16000;
 
-        CHANCE_MUTATION_PROCESS = 20;
+        CHANCE_MUTATION_PROCESS = 30;
         MUTATION_PROCESS_DELAY = 2400;
         CHANCE_MUTATION_VIRUS = 15;
+
+        CHANCE_LABORATORY_GEN = 10;
     }
 }

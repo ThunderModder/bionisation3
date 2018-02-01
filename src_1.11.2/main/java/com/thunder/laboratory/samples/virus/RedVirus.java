@@ -11,9 +11,7 @@ import com.thunder.player.IBioPlayer;
 import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,13 +62,22 @@ public class RedVirus extends AbstractVirusEffect {
             if(!(entity instanceof EntitySpider) && duration > 1200 && Utilities.isTickerEqual(cap.getTicker(), 400))
                 Utilities.addPotionEffect(entity, Constants.POTION_POISON_ID, power, 40, wasPowerChanged);
             else {
-                Utilities.spreadEffect(this, entity, EntitySpider.class, 5);
-                if(entity instanceof EntitySpider){
-                    if(Utilities.isTickerEqual(cap.getTicker(), 600)) {
-                        EntitySpider spider = (EntitySpider) entity;
-                        spider.targetTasks.taskEntries.clear();
-                        //clear because it cannot check properly if task is present, so tasks are stacking and it is bad
-                        spider.targetTasks.addTask(2, new EntityAINearestAttackableTargetWithWhiteList(spider, EntityLivingBase.class, true, EntitySpider.class));
+                if(Utilities.isTickerEqual(cap.getTicker(), 100))
+                    Utilities.spreadEffect(this, entity, EntitySpider.class, 5);
+                if(entity instanceof EntitySpider && Utilities.isTickerEqual(cap.getTicker(), 100)){
+                    EntitySpider spider = (EntitySpider) entity;
+                    EntityAIBase task1 = null;
+                    EntityAIBase task2 = null;
+                    for(Object o : spider.targetTasks.taskEntries){
+                        EntityAITasks.EntityAITaskEntry entry = (EntityAITasks.EntityAITaskEntry)o;
+                        if(entry.action instanceof EntityAINearestAttackableTargetWithWhiteList)
+                            task1 = entry.action;
+                        else if(entry.action instanceof EntityAINearestAttackableTarget)
+                            task2 = entry.action;
+                    }
+                    if(task2 != null) spider.targetTasks.removeTask(task2);
+                    if(task1 == null) {
+                        spider.targetTasks.addTask(2, new EntityAINearestAttackableTargetWithWhiteList(spider, EntityLivingBase.class, false, EntitySpider.class));
                     }
                 }
             }

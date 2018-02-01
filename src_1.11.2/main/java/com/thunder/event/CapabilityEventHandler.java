@@ -34,6 +34,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 
@@ -120,15 +121,14 @@ public class CapabilityEventHandler {
                 }
                 //effect tickers=========
                 Iterator<IBioSample> it = cap.getEffectList().iterator();
-                while(it.hasNext()){
+                while (it.hasNext()) {
                     IBioSample smp = it.next();
-                    if(smp.isNeedToBeSynced()) needSync = true;
-                    if(smp.isExpired()) {
+                    if (smp.isNeedToBeSynced()) needSync = true;
+                    if (smp.isExpired()) {
                         Utilities.clearObservablePotions(smp.getObservablePotionEffects(), player);
                         it.remove();
                         cap.syncAllCap(player);
-                    }
-                    else smp.performEffectPlayer(event, player, EventType.TICK, cap);
+                    } else smp.performEffectPlayer(event, player, EventType.TICK, cap);
                 }
                 if(needSync && Utilities.isTickerEqual(cap.getTicker(), 40))
                     cap.syncAllCap(player);
@@ -148,13 +148,12 @@ public class CapabilityEventHandler {
                 Iterator<IBioSample> it = cap.getEffectList().iterator();
                 while(it.hasNext()){
                     IBioSample smp = it.next();
-                    if(smp.isNeedToBeSynced()) needSync = true;
-                    if(smp.isExpired()) {
+                    if (smp.isNeedToBeSynced()) needSync = true;
+                    if (smp.isExpired()) {
                         Utilities.clearObservablePotions(smp.getObservablePotionEffects(), ent);
                         it.remove();
                         cap.syncAllCap(ent);
-                    }
-                    else smp.performEffectEntity(event, ent, EventType.TICK, cap);
+                    } else smp.performEffectEntity(event, ent, EventType.TICK, cap);
                 }
                 if(needSync && Utilities.isTickerEqual(cap.getTicker(), 40))
                     cap.syncAllCap(ent);
@@ -234,9 +233,16 @@ public class CapabilityEventHandler {
             }else{
                 IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
                 Iterator<IBioSample> it = cap.getEffectList().iterator();
+                String name = "";
                 while(it.hasNext()){
-                    IBioSample smp = it.next();
-                    smp.performEffectEntity(event, ent, EventType.DEATH, cap);
+                    try {
+                        IBioSample smp = it.next();
+                        name = smp.getName();
+                        smp.performEffectEntity(event, ent, EventType.DEATH, cap);
+                    } catch (ConcurrentModificationException ex){
+                        ex.printStackTrace();
+                        System.out.println("NAAAAAAAAAAAAAAAAAAAAAAAMEEEEEEEEEEEEEEEEEEEEE:" + name);
+                    }
                 }
             }
         }

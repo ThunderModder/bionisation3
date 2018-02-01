@@ -6,6 +6,7 @@ import com.thunder.laboratory.EffectContainer;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.IVirus;
 import com.thunder.laboratory.samples.EffectFracture;
+import com.thunder.laboratory.samples.virus.ICustomVirus;
 import com.thunder.mob.BioMobProvider;
 import com.thunder.mob.IBioMob;
 import com.thunder.player.BioPlayerProvider;
@@ -54,6 +55,7 @@ public class Utilities {
     }
 
     public static void spreadEffect(IBioSample sample, EntityLivingBase source, Class<? extends EntityLivingBase> entity, int radius){
+        if(sample instanceof ICustomVirus) return;
         AxisAlignedBB box = source.getEntityBoundingBox().expand(radius, radius, radius);
         List<Entity> entities = source.world.getEntitiesWithinAABBExcludingEntity(source, box);
         for (Entity e : entities){
@@ -74,11 +76,11 @@ public class Utilities {
                     EntityPlayer player = (EntityPlayer)e;
                     IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
                     if(!hasFullBioArmor(player))
-                        cap.addEffect(effect, player);
+                        cap.addEffectIntoQueue(effect);
                 }else{
                     EntityLivingBase ent = (EntityLivingBase)e;
                     IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
-                    cap.addEffect(effect, ent);
+                    cap.addEffectIntoQueue(effect);
                 }
             }
         }
@@ -128,26 +130,54 @@ public class Utilities {
         return result + (random.nextInt(2) == 0 ? "!" : ".");
     }
 
-    public static void startMutation(IBioPlayer cap, int chance){
-        for(IBioSample smp : cap.getEffectList()){
-            if(smp instanceof IVirus){
-                IVirus virus = (IVirus)smp;
-                if(virus.isCanMutate() && getRandom(chance)){
-                    String [] dna = virus.getDNA().split(":");
-                    for (int i = 0; i < random.nextInt(5); i++){
-                        int partNumber = random.nextInt(4);
-                        dna[partNumber] = "" + (random.nextInt(900) + 100);
+    public static void startMutation(EntityLivingBase entity, int chance){
+        if(entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
+            if(cap != null) {
+                for (IBioSample smp : cap.getEffectList()) {
+                    if (smp instanceof IVirus) {
+                        IVirus virus = (IVirus) smp;
+                        if (virus.isCanMutate() && getRandom(chance)) {
+                            mutate(virus, entity);
+                        }
                     }
-                    String newDNA = "";
-                    for(int i = 0; i < 4; i++){
-                        if(i == 3) newDNA += dna[i];
-                        else
-                            newDNA += dna[i] + ":";
+                }
+            }
+        }else{
+            IBioMob cap = entity.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
+            if (cap != null) {
+                for (IBioSample smp : cap.getEffectList()) {
+                    if (smp instanceof IVirus) {
+                        IVirus virus = (IVirus) smp;
+                        if (virus.isCanMutate() && getRandom(chance)) {
+                            mutate(virus, entity);
+                        }
                     }
-                    virus.setDNA(newDNA);
                 }
             }
         }
+    }
+
+    private static void mutate(IVirus virus, EntityLivingBase entity){
+        String prev = virus.getDNA();
+        String[] dna = virus.getDNA().split(":");
+        for (int i = 0; i < random.nextInt(5); i++) {
+            int partNumber = random.nextInt(dna.length);
+            dna[partNumber] = "" + (random.nextInt(40));
+        }
+        String newDNA = "";
+        for (int i = 0; i < dna.length; i++) {
+            if (i == (dna.length - 1)) newDNA += dna[i];
+            else
+                newDNA += dna[i] + ":";
+        }
+        virus.setDNA(newDNA);
+        if (virus instanceof ICustomVirus) {
+            clearObservablePotions(virus.getObservablePotionEffects(), entity);
+            ((ICustomVirus) virus).addOrReaddObservable();
+        }
+        System.out.println("Mutation. Prev " + prev + " New " + newDNA);
     }
 
     public static void debugEffect(IBioSample effect,  EntityLivingBase entity){
@@ -169,10 +199,12 @@ public class Utilities {
         System.out.println("Is need to be synced: " + effect.isNeedToBeSynced());
         if(effect instanceof IVirus) {
             System.out.println("Is virus: " + (effect instanceof IVirus));
-            System.out.println("Has DNA:" + ((IVirus) effect).hasDNA());
-            System.out.println("DNA:" + ((IVirus) effect).getDNA());
-            System.out.println("Is hidden:" + ((IVirus) effect).isHidden());
-            System.out.println("Can mutate:" + ((IVirus) effect).isCanMutate());
+            System.out.println("Has DNA: " + ((IVirus) effect).hasDNA());
+            System.out.println("DNA: " + ((IVirus) effect).getDNA());
+            System.out.println("Is hidden: " + ((IVirus) effect).isHidden());
+            System.out.println("Can mutate: " + ((IVirus) effect).isCanMutate());
+            if(effect instanceof ICustomVirus)
+                System.out.println("Is custom: " + ((ICustomVirus)effect).isCustom());
         }
         System.out.println("***=======Effect debug end=======***");
     }
@@ -283,10 +315,10 @@ public class Utilities {
         if(entity instanceof EntityPlayer){
             EntityPlayer player = (EntityPlayer) entity;
             IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-            cap.addEffect(sample, player);
+            cap.addEffectIntoQueue(sample);
         }else {
             IBioMob cap = entity.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
-            cap.addEffect(sample, entity);
+            cap.addEffectIntoQueue(sample);
         }
     }
 

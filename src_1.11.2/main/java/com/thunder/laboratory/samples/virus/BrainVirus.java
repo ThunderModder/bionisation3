@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
@@ -72,12 +73,22 @@ public class BrainVirus extends AbstractVirusEffect {
                 Utilities.addPotionEffect(entity, Constants.POTION_HEALTHBOOST_ID, power, -1, wasPowerChanged);
                 Utilities.addPotionEffect(entity, Constants.POTION_STRENGTH_ID, power, -1, wasPowerChanged);
                 //Utilities.addPotionEffect(entity, Constants.POTION_SLOWNESS_ID, power, -1, wasPowerChanged);
-                if(Utilities.isTickerEqual(cap.getTicker(), 600)) {
+                if(Utilities.isTickerEqual(cap.getTicker(), 100)){
                     Utilities.spreadEffect(this, entity, EntityZombie.class, 5);
                     EntityZombie zombie = (EntityZombie) entity;
-                    zombie.targetTasks.taskEntries.clear();
-                    //clear because it cannot check properly if task is present, so tasks are stacking and it is bad
-                    zombie.targetTasks.addTask(2, new EntityAINearestAttackableTargetWithWhiteList(zombie, EntityLivingBase.class, false, EntityZombie.class));
+                    EntityAIBase task1 = null;
+                    EntityAIBase task2 = null;
+                    for(Object o : zombie.targetTasks.taskEntries){
+                        EntityAITasks.EntityAITaskEntry entry = (EntityAITasks.EntityAITaskEntry)o;
+                        if(entry.action instanceof EntityAINearestAttackableTargetWithWhiteList)
+                            task1 = entry.action;
+                        else if(entry.action instanceof EntityAINearestAttackableTarget)
+                            task2 = entry.action;
+                    }
+                    if(task2 != null) zombie.targetTasks.removeTask(task2);
+                    if(task1 == null) {
+                        zombie.targetTasks.addTask(2,new EntityAINearestAttackableTargetWithWhiteList(zombie, EntityLivingBase.class, false, EntityZombie.class));
+                    }
                 }
             }
         }

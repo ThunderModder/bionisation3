@@ -1,5 +1,9 @@
 package com.thunder.event;
 
+import com.thunder.biome.InfectedBiome;
+import com.thunder.item.ItemBionisation;
+import com.thunder.item.ItemBlood;
+import com.thunder.item.ItemRegistry;
 import com.thunder.laboratory.EventType;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.ItemManager;
@@ -14,8 +18,10 @@ import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
@@ -28,6 +34,7 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
@@ -63,7 +70,7 @@ public class EffectEventHandler {
                 int ticker = cap.getTicker();
                 //mutation
                 if(isTickerEqual(ticker, MUTATION_PROCESS_DELAY) && getRandom(CHANCE_MUTATION_PROCESS))
-                    startMutation(cap, CHANCE_MUTATION_VIRUS);
+                    startMutation(player, CHANCE_MUTATION_VIRUS);
                 //revision
                 if(isTickerEqual(ticker, 300) && getRandom(REVISION_CHANCE)){
                     if(!hasFullBioArmor(player))
@@ -109,11 +116,44 @@ public class EffectEventHandler {
                 //AER VIRUS
                 if(isTickerEqual(ticker, 2400) && cap.getImmunityLevel() < IMMUNITY_LEVEL_AER_VIRUS && getRandom(CHANCE_AER_VIRUS))
                     cap.addEffect(new AerVirus(STANDART_VIRUS_DURATION, 1), player);
+                //FOREST EFFECTS
+                if(biome == InfectedBiome.INFECTED_BIOME) {
+                    if(player.isInWater() && !hasFullBioArmor(player))
+                        addPotionEffect(player, POTION_POISON_ID, 1, 40);
+                    if(isTickerEqual(ticker, 300) && player.inventory.armorInventory.get(0).isEmpty() && world.getBlockState(player.getPosition().down()) != Blocks.AIR)
+                        cap.addEffect(new TeraBacteria(DURATION_TERABACTERIA, getPowerFromImmunity(cap.getImmunityLevel())), player);
+                    if (isTickerEqual(ticker, 1200)) {
+                        addPotionEffect(player, POTION_WEAKENSS_ID, 1, 100);
+                    }
+                    if (isTickerEqual(ticker, 2400)) {
+                        addPotionEffect(player, POTION_BLINDNESS_ID, 1, 100);
+                        addPotionEffect(player, POTION_SLOWNESS_ID, 1, 100);
+                    }
+                    if (isTickerEqual(ticker, 3600)) {
+                        addPotionEffect(player, POTION_WITHER_ID, 1, 100);
+                    }
+                }
             }else{
+                IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
+                //mutation
+                if(isTickerEqual(cap.getTicker(), MUTATION_PROCESS_DELAY) && getRandom(CHANCE_MUTATION_PROCESS))
+                    startMutation(ent, CHANCE_MUTATION_VIRUS);
                 if((ent instanceof EntityWolf)){
-                    IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
                     if(Utilities.isTickerEqual(cap.getTicker(), 2400) && getRandom(CHANCE_RABIES_VIRUS))
                         cap.addEffect(new Rabies(STANDART_VIRUS_DURATION, 1), ent);
+                }
+                Biome biome = world.getBiome(ent.getPosition());
+                //INFECTED FOREST EFFECTS
+                if(biome == InfectedBiome.INFECTED_BIOME){
+                    //FOREST RABIES
+                    if(isTickerEqual(cap.getTicker(), 1200)) {
+                        if(getRandom(CHANCE_RABIES_VIRUS * 3))
+                            cap.addEffect(new Rabies(STANDART_VIRUS_DURATION, 1), ent);
+                        if(getRandom(CHANCE_BLEEDING))
+                            cap.addEffect(new EffectBleeding(DURATION_BLEEDING, 0), ent);
+                    }
+                    if(ent.isInWater())
+                        addPotionEffect(ent, POTION_POISON_ID, 1, 40);
                 }
             }
         }
@@ -287,6 +327,30 @@ public class EffectEventHandler {
                 //DESERT VIRUS
                 if(entity instanceof EntityHusk && getRandom(CHANCE_DESERT_VIRUS))
                     cap.addEffect(new DesertVirus(DURATION_DESERT_VIRUS, 1), entity);
+                //INFECTED FOREST
+                World world = event.getWorld();
+                Biome biome = world.getBiome(entity.getPosition());
+                if(biome == InfectedBiome.INFECTED_BIOME){
+                    //FOREST GIANT VIRUS
+                    cap.addEffect(new GiantVirus(DURATION_GIANT_VIRUS, 2), entity);
+                    //FOREST BIG GREEN BACTERIA
+                    if(entity instanceof EntityCreeper)
+                        cap.addEffect(new BGreenBacteria(DURATION_BIGGREENBACTERIA, random.nextInt(4)), entity);
+                    //FOREST RED VIRUS
+                    if(entity instanceof EntitySpider)
+                        cap.addEffect(new RedVirus(STANDART_VIRUS_DURATION, 1), entity);
+                    //FOREST SKULL VIRUS
+                    if((entity instanceof EntitySkeleton || entity instanceof EntityStray))
+                        cap.addEffect(new SkullVirus(DURATION_SKULL_VIRUS, 1), entity);
+                    //FOREST BAT VIRUS
+                    if(entity instanceof EntityBat)
+                        cap.addEffect(new BatVirus(STANDART_VIRUS_DURATION, 1), entity);
+                    //FOREST HEALTH BOOST
+                    if(entity instanceof EntityZombie) {
+                        addPotionEffect(entity, POTION_HEALTHBOOST_ID, 2, -1);
+                        cap.addEffect(new BrainVirus(STANDART_VIRUS_DURATION, 1), entity);
+                    }
+                }
             }
         }
     }
@@ -308,6 +372,38 @@ public class EffectEventHandler {
 
     @SubscribeEvent
     public void onEntityDeath(LivingDeathEvent event){
-
+        //Modifying drops
+        EntityLivingBase entity = event.getEntityLiving();
+        if(!entity.world.isRemote) {
+           /* if(entity instanceof EntityCreature && getRandom(20)){
+                ItemStack stack = new ItemStack(ItemRegistry.ITEM_BLOOD);
+                NBTTagCompound tag = getNbt(stack);
+                tag.setString(ItemBlood.BLOOD_KEY, entity.getName());
+                entity.entityDropItem(stack, 0.1f);
+            }*/
+            if (entity instanceof EntityBat) {
+                if (getRandom(20)) entity.dropItem(ItemRegistry.BAT_WING, 1);
+            } else if (entity instanceof EntityWolf) {
+                if (getRandom(25)) entity.dropItem(ItemRegistry.WOLFS_TOOTH, 1);
+            } else if (entity instanceof EntityVex) {
+                if (getRandom(85)) entity.dropItem(ItemRegistry.SPECTRAL_DUST, 4);
+            } else if (entity instanceof EntitySpider) {
+                if (getRandom(45)) entity.dropItem(ItemRegistry.SPIDER_LEG, random.nextInt(4) + 1);
+            } else if (entity instanceof EntityWitherSkeleton || entity instanceof EntityWither) {
+                if (getRandom(20)) entity.dropItem(ItemRegistry.DARK_HEART, 1);
+            } else if (entity instanceof EntityGuardian || entity instanceof EntityElderGuardian) {
+                if (getRandom(30)) entity.dropItem(ItemRegistry.GUARDIAN_BRAIN, 1);
+            } else if (entity instanceof EntityWitch) {
+                if (getRandom(45)) entity.dropItem(ItemRegistry.STRANGE_LIQUID, 1);
+            } else if (entity instanceof EntityChicken) {
+                if (getRandom(25)) entity.dropItem(ItemRegistry.CHICKEN_HEAD, 1);
+            } else if (entity instanceof EntityBlaze) {
+                if (getRandom(55)) entity.dropItem(ItemRegistry.BLAZE_CORE, 1);
+            } else if (entity instanceof EntityCreeper) {
+                if (getRandom(45)) entity.dropItem(ItemRegistry.HEART_OF_CREEPER, 1);
+            } else if (entity instanceof EntityEnderman || entity instanceof EntityEndermite) {
+                if (getRandom(65)) entity.dropItem(ItemRegistry.ENDER_SUBSTANCE, random.nextInt(2) + 1);
+            }
+        }
     }
 }

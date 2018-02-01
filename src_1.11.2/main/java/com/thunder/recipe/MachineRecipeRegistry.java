@@ -32,14 +32,14 @@ public class MachineRecipeRegistry {
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(ItemRegistry.DILL_BUNCH, 1), ItemStack.EMPTY}, ID_CURE_FPOISON);
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LIVING_BONE, 1), new ItemStack(Items.SPIDER_EYE, 1)}, ID_CURE_BLACKBACTERIA);
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.CRYSTAL_FLOWER, 1), new ItemStack(Blocks.WATERLILY, 1)}, ID_CURE_SWAMPBACTERIA);
-        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.PHOENIX_FLOWER, 1), new ItemStack(Items.GOLDEN_CARROT, 1)}, ID_CURE_GLOWINGBACTERIA);
-        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LOTUS, 1), ItemStack.EMPTY}, ID_CURE_WATERBACTERIA);
-        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.ENDER_FLOWER, 1), ItemStack.EMPTY}, ID_CURE_ENDERBACTERIA);
+        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.PHOENIX_FLOWER, 1), new ItemStack(ItemRegistry.STRANGE_LIQUID, 1)}, ID_CURE_GLOWINGBACTERIA);
+        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LOTUS, 1), new ItemStack(ItemRegistry.GUARDIAN_BRAIN, 1)}, ID_CURE_WATERBACTERIA);
+        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.ENDER_FLOWER, 1), new ItemStack(ItemRegistry.ENDER_CORE, 1)}, ID_CURE_ENDERBACTERIA);
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.DESERT_FLOWER, 1), new ItemStack(Blocks.CACTUS, 1)}, ID_CURE_CACTUSBACTERIA);
-        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LIVING_BONE, 1), new ItemStack(Items.BONE, 1)}, ID_CURE_BONEBACTERIA);
+        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LIVING_BONE, 1), new ItemStack(ItemRegistry.WOLFS_TOOTH, 1)}, ID_CURE_BONEBACTERIA);
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.ANCIENT_FLOWER, 1), new ItemStack(Items.BEETROOT, 1)}, ID_CURE_TERABACTERIA);
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.ANCIENT_FLOWER, 1), new ItemStack(Blocks.MYCELIUM, 1)}, ID_CURE_MYCELIUMBACTERIA);
-        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LIVING_BONE, 1), new ItemStack(Items.GUNPOWDER, 1)}, ID_CURE_SMALLGREENBACTERIA);
+        HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.LIVING_BONE, 1), new ItemStack(ItemRegistry.HEART_OF_CREEPER, 1)}, ID_CURE_SMALLGREENBACTERIA);
         HERBAL_STATION_RECIPE_MAP.put(new ItemStack[]{new ItemStack(BlockRegistry.CRYSTAL_FLOWER, 1), new ItemStack(Items.FISH, 1)}, ID_CURE_SEABACTERIA);
     }
 

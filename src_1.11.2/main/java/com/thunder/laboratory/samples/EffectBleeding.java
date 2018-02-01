@@ -41,10 +41,10 @@ public class EffectBleeding extends AbstractEffect {
     @Override
     public void performEntity(Event event, EntityLivingBase entity, EventType type, IBioMob cap) {
         if(type == EventType.TICK) {
-            if(Utilities.isTickerEqual(cap.getTicker(), 300))
-                entity.attackEntityFrom(DamageSource.GENERIC, 1f);
             Utilities.addPotionEffect(entity, Constants.POTION_WEAKENSS_ID, this.power, -1, wasPowerChanged);
             Utilities.addPotionEffect(entity, Constants.POTION_SLOWNESS_ID, this.power, -1, wasPowerChanged);
+            if(Utilities.isTickerEqual(cap.getTicker(), 300))
+                entity.attackEntityFrom(DamageSource.GENERIC, 1f);
         }
     }
 }

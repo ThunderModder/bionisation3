@@ -3,6 +3,8 @@ package com.thunder.worldgen;
 import com.thunder.biome.InfectedBiome;
 import com.thunder.block.BlockRegistry;
 import com.thunder.block.FlowerBionisation;
+import com.thunder.structure.BStructure;
+import com.thunder.util.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.init.Biomes;
 import net.minecraft.util.math.BlockPos;
@@ -20,6 +22,7 @@ public class WorldGenBionisation implements IWorldGenerator{
 
     public static void init(){
         GameRegistry.registerWorldGenerator(new WorldGenBionisation(), 0);
+        GameRegistry.registerWorldGenerator((random, chunkX, chunkZ, world, chunkGenerator, chunkProvider) -> BStructure.generateLaboratory(Constants.CHANCE_LABORATORY_GEN, world, random, chunkX, chunkZ), 1);
     }
 
     @Override
@@ -57,6 +60,8 @@ public class WorldGenBionisation implements IWorldGenerator{
             generateFlower(BlockRegistry.YARROW, 16, world, random, chunkX, chunkZ);
             generateFlower(BlockRegistry.CRYSTAL_FLOWER, 32, world, random, chunkX, chunkZ);
         }else  generateFlower(BlockRegistry.DILL, 16, world, random, chunkX, chunkZ);
+
+        //BStructure.generateLaboratory(20, world, random, chunkX, chunkZ);
     }
 
     public void generateNether(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider){

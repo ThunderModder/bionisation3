@@ -1,16 +1,23 @@
 package com.thunder.laboratory;
 
+import com.thunder.laboratory.samples.virus.ICustomVirus;
+import com.thunder.laboratory.samples.virus.custom.CustomVirus;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.NonNullList;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemManager {
+
+    private static final String KEY = Utilities.getModIdString("eff_list");
 
     //from player to items
     public static void startRevision(EntityPlayer player, IBioPlayer cap, int flag){
@@ -18,19 +25,26 @@ public class ItemManager {
         NonNullList<ItemStack> armorInv = player.inventory.armorInventory;
         NonNullList<ItemStack> offInv = player.inventory.offHandInventory;
         List<IBioSample> effects = cap.getEffectList();
+        //common effects
+        List<SampleBundle> effs = new ArrayList<>();
         for(IBioSample smp : effects){
             if(smp.getDangerous()){
-                if(flag == 1) {
-                    //main inventory
-                    fromPlayerToItems(mainInv, smp);
-                    //armor inv
-                    fromPlayerToItems(armorInv, smp);
-                    //offhand inv
-                    fromPlayerToItems(offInv, smp);
-                }else if(flag == 2){
-                    //armor inv
-                    fromPlayerToItems(armorInv, smp);
-                }
+               if(smp instanceof ICustomVirus) effs.add(new SampleBundle(smp.getId(), smp.getDuration(), smp.getPower(), smp.getDangerous(), smp.getName(), ((ICustomVirus) smp).getDNA(), true));
+               else if(smp instanceof IVirus) effs.add(new SampleBundle(smp.getId(), smp.getDuration(), smp.getPower(), smp.getDangerous(), smp.getName(), ((IVirus)smp).getDNA(), false));
+               else effs.add(new SampleBundle(smp.getId(), smp.getDuration(), smp.getPower(), smp.getDangerous(), smp.getName(), "", false));
+            }
+        }
+        if(!effs.isEmpty()) {
+            if (flag == 1) {
+                //main inventory
+                fromPlayerToItems(mainInv, effs, KEY);
+                //armor inv
+                fromPlayerToItems(armorInv, effs, KEY);
+                //offhand inv
+                fromPlayerToItems(offInv, effs, KEY);
+            } else if (flag == 2) {
+                //armor inv
+                fromPlayerToItems(armorInv, effs, KEY);
             }
         }
     }
@@ -54,44 +68,60 @@ public class ItemManager {
     }
 
     private static void fromItemsToPlayer(EntityPlayer player, NonNullList<ItemStack> inventory, IBioPlayer cap){
-        String key = Utilities.getModIdString("eff_list");
-        List<Integer> ids = new ArrayList<>();
         for(ItemStack stack : inventory){
             if(!stack.isEmpty()){
                 NBTTagCompound nbt = Utilities.getNbt(stack);
-                if(nbt.hasKey(key)){
-                    String [] eff = nbt.getString(key).split("_");
-                    for(String s : eff) {
-                        if(!s.isEmpty()) {
-                            int id = Integer.parseInt(s);
-                            if (!cap.isEffectActive(id)) ids.add(id);
+                //add common effects
+                if(nbt.hasKey(KEY)){
+                    try {
+                        List<SampleBundle> effs = Utilities.listFromNBT((NBTTagList) nbt.getTag(KEY));
+                        for(SampleBundle bundle : effs){
+                            if(bundle.isCustom){
+                                cap.addEffect(new CustomVirus(bundle.id, bundle.duration, bundle.power, bundle.dangerous, bundle.name, bundle.dna), player);
+                            }else
+                                cap.addEffect(Utilities.getNewEffectCopy(Utilities.findEffectById(bundle.id)), player);
                         }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
                 }
             }
-        }
-        for (Integer i : ids){
-            cap.addEffect(Utilities.getNewEffectCopy(Utilities.findEffectById(i)), player);
         }
     }
 
-    private static void fromPlayerToItems(NonNullList<ItemStack> inventory, IBioSample sample){
-        String key = Utilities.getModIdString("eff_list");
+    private static void fromPlayerToItems(NonNullList<ItemStack> inventory, List<SampleBundle> effects, String key){
         for (ItemStack stack : inventory){
             if(!stack.isEmpty()){
                 NBTTagCompound nbt = Utilities.getNbt(stack);
-                if(nbt.hasKey(key)){
-                    String eff = nbt.getString(key);
-                    if(!eff.contains("_" + sample.getId() + "_")) {
-                        eff += sample.getId() + "_";
-                        nbt.setString(key, eff);
-                    }
-                }else{
-                    String eff = "_";
-                    eff += sample.getId() + "_";
-                    nbt.setString(key, eff);
+                try {
+                    nbt.setTag(key, Utilities.<SampleBundle>objListToNBT(effects));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private static class SampleBundle implements Serializable{
+
+        private int id;
+        private int duration;
+        private int power;
+        private boolean dangerous;
+        private String name;
+        private String dna;
+        private boolean isCustom;
+
+        public SampleBundle(int id, int duration, int power, boolean dangerous, String name, String dna, boolean isCustom){
+            this.id = id;
+            this.duration = duration;
+            this.power = power;
+            this.dangerous = dangerous;
+            this.name = name;
+            this.dna = dna;
+            this.isCustom = isCustom;
         }
     }
 }

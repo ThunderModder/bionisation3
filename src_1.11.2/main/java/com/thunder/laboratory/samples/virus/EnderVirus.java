@@ -5,13 +5,16 @@ import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.SampleType;
 import com.thunder.laboratory.samples.virus.symbiosis.APSymbiosis;
 import com.thunder.laboratory.samples.virus.symbiosis.EWSymbiosis;
+import com.thunder.misc.ai.EntityAINearestAttackableTargetR;
 import com.thunder.mob.IBioMob;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityEndermite;
 import net.minecraft.entity.player.EntityPlayer;
@@ -97,8 +100,19 @@ public class EnderVirus extends AbstractVirusEffect {
                 if (Utilities.isTickerEqual(cap.getTicker(), 600)) {
                     if(entity instanceof EntityEnderman){
                         EntityEnderman ender = (EntityEnderman)entity;
-                        ender.targetTasks.taskEntries.clear();
-                        ender.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(ender, EntityPlayer.class, false));
+                        EntityAIBase task1 = null;
+                        boolean hasCTask = false;
+                        for(Object o : ender.targetTasks.taskEntries) {
+                            EntityAITasks.EntityAITaskEntry entry = (EntityAITasks.EntityAITaskEntry) o;
+                            if (entry.action instanceof EntityAINearestAttackableTarget)
+                                task1 = entry.action;
+                            else if (entry.action instanceof EntityAINearestAttackableTargetR)
+                                hasCTask = true;
+                        }
+                        if(task1 != null)
+                            ender.targetTasks.removeTask(task1);
+                        if(!hasCTask)
+                            ender.targetTasks.addTask(2, new EntityAINearestAttackableTargetR<>(ender, EntityPlayer.class, false));
                     }
                     World world = entity.world;
                     if (world.canSeeSky(new BlockPos(entity))) {

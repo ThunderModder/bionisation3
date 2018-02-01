@@ -4,6 +4,7 @@ import com.thunder.laboratory.EventType;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.SampleType;
 import com.thunder.misc.ai.EntityAIAttackPeaceful;
+import com.thunder.misc.ai.EntityAINearestAttackableTargetR;
 import com.thunder.misc.ai.EntityAINearestAttackableTargetWithWhiteList;
 import com.thunder.mob.IBioMob;
 import com.thunder.player.IBioPlayer;
@@ -71,28 +72,60 @@ public class Rabies extends AbstractVirusEffect {
                 Utilities.addPotionEffect(entity, Constants.POTION_STRENGTH_ID, power, -1, wasPowerChanged);
                 Utilities.addPotionEffect(entity, Constants.POTION_SPEED_ID, power * 3, -1, wasPowerChanged);
                 Utilities.addPotionEffect(entity, Constants.POTION_JUMPBOOST_ID, power, -1, wasPowerChanged);
-                if(Utilities.isTickerEqual(cap.getTicker(), 600)){
-                    //if wolf - set angry
-                    if(entity instanceof EntityWolf){
-                        EntityWolf wolf = (EntityWolf)entity;
-                        wolf.setAngry(true);
-                    }
+                //remove red and brain virus if active
+                if(Utilities.isTickerEqual(cap.getTicker(), 20)) {
+                    //check viruses
+                    IBioSample v1 = cap.getEffectById(Constants.ID_RED_VIRUS);
+                    IBioSample v2 = cap.getEffectById(Constants.ID_BRAIN_VIRUS);
+                    if (v1 != null) v1.setExpired(true);
+                    if (v2 != null) v2.setExpired(true);
+                }
+                //if wolf - set angry
+                if(entity instanceof EntityWolf){
+                    EntityWolf wolf = (EntityWolf)entity;
+                    wolf.setAngry(true);
+                }
+                if(Utilities.isTickerEqual(cap.getTicker(), 100)){
                     //add target tasks
                     if(entity instanceof EntityCreature){
                         EntityCreature creature = (EntityCreature)entity;
-                        creature.targetTasks.taskEntries.clear();
-                        EntityAIBase task = null;
+                        //creature.targetTasks.taskEntries.clear();
+                        EntityAIBase task1 = null;
+                        boolean hasLeapTask = false;
+                        boolean hasAttackablePeacefulTask = false;
                         for(Object o : creature.tasks.taskEntries){
                             EntityAITasks.EntityAITaskEntry entry = (EntityAITasks.EntityAITaskEntry)o;
                             if(entry.action instanceof EntityAIPanic)
-                                task = entry.action;
+                                task1 = entry.action;
+                            else if(entry.action instanceof EntityAILeapAtTarget)
+                                hasLeapTask = true;
+                            else if(entry.action instanceof EntityAIAttackPeaceful)
+                                hasAttackablePeacefulTask = true;
                         }
-                        if(task != null) creature.tasks.removeTask(task);
+                        if(task1 != null) creature.tasks.removeTask(task1);
                         //clear because it cannot check properly if task is present, so tasks are stacking and it is bad
-                        creature.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(creature, EntityLivingBase.class, false));
-                        creature.targetTasks.addTask(1, new EntityAILeapAtTarget(creature, 1f));
-                        if(!(entity instanceof EntityMob))
-                            creature.targetTasks.addTask(1, new EntityAIAttackPeaceful(creature, 0.9f, true));
+                        //==============
+                        EntityAIBase task2 = null;
+                        EntityAIBase task3 = null;
+                        boolean hasAttackableTask = false;
+                        for(Object o : creature.targetTasks.taskEntries){
+                            EntityAITasks.EntityAITaskEntry entry = (EntityAITasks.EntityAITaskEntry)o;
+                            if(entry.action instanceof EntityAINearestAttackableTarget)
+                                task2 = entry.action;
+                            else if(entry.action instanceof EntityAINearestAttackableTargetWithWhiteList)
+                                task3 = entry.action;
+                            else if(entry.action instanceof EntityAINearestAttackableTargetR)
+                                hasAttackableTask = true;
+                        }
+                        if(task2 != null) creature.targetTasks.removeTask(task2);
+                        if(task3 != null) creature.targetTasks.removeTask(task3);
+                        if(!hasAttackableTask)
+                            creature.targetTasks.addTask(2, new EntityAINearestAttackableTargetR<>(creature, EntityLivingBase.class, false));
+                        if(!hasLeapTask)
+                            creature.tasks.addTask(1, new EntityAILeapAtTarget(creature, 0.6f));
+                        if(!(entity instanceof EntityMob) && !hasAttackablePeacefulTask)
+                            creature.tasks.addTask(1, new EntityAIAttackPeaceful(creature, 0.9f, true));
+                        //==============
                     }
 
                 }

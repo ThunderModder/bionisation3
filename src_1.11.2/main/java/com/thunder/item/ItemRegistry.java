@@ -40,6 +40,23 @@ public class ItemRegistry {
     public static ItemBionisation DISINFECTANT_FLUID;
     public static ItemBionisation VACCINE_INJECTOR;
     public static ItemBionisation VIAL;
+    public static ItemBionisation DNA_PATTERN;
+
+    public static ItemBionisation BAT_WING;
+    public static ItemBionisation WOLFS_TOOTH;
+    public static ItemBionisation ITEM_BLOOD;
+    public static ItemBionisation SPECTRAL_DUST;
+    public static ItemBionisation SPIDER_LEG;
+    public static ItemBionisation ENDER_CORE;
+    public static ItemBionisation DARK_HEART;
+    public static ItemBionisation GUARDIAN_BRAIN;
+    public static ItemBionisation GLOWING_LIQUID;
+    public static ItemBionisation STRANGE_LIQUID;
+    public static ItemBionisation CHICKEN_HEAD;
+    public static ItemBionisation BLAZE_CORE;
+    public static ItemBionisation HEART_OF_CREEPER;
+    public static ItemBionisation ENDER_SUBSTANCE;
+    public static ItemBionisation GENE_VIAL;
 
     public static void initItemsServer(){
         GARLIC_BULB = new GarlicBulb("garlicbulb", BlockRegistry.GARLIC);
@@ -52,6 +69,22 @@ public class ItemRegistry {
         DISINFECTANT_FLUID = new ItemBionisation("disinfectantfluid", 1);
         VACCINE_INJECTOR = new VaccineInjector();
         VIAL = new Vial();
+        DNA_PATTERN = new DNAPattern();
+        BAT_WING = new ItemBionisation("batwing", 16);
+        WOLFS_TOOTH = new ItemBionisation("wolfstooth", 16);
+        ITEM_BLOOD = new ItemBlood();
+        SPECTRAL_DUST = new ItemBionisation("spectraldust", 64);
+        SPIDER_LEG = new ItemBionisation("spiderleg", 16);
+        ENDER_CORE = new ItemBionisation("endercore", 64);
+        DARK_HEART = new ItemBionisation("darkheart", 16);
+        GUARDIAN_BRAIN = new ItemBionisation("guardianbrain", 16);
+        GLOWING_LIQUID = new ItemBionisation("glowingliquid", 1);
+        STRANGE_LIQUID = new ItemBionisation("strangeliquid", 1);
+        CHICKEN_HEAD = new ItemBionisation("chickenhead", 16);
+        BLAZE_CORE = new ItemBionisation("blazecore", 64);
+        HEART_OF_CREEPER = new ItemBionisation("heartofcreeper", 16);
+        ENDER_SUBSTANCE = new ItemBionisation("endersubstance", 16);
+        GENE_VIAL = new GeneVial();
         BIO_HELMET = new BioArmor("bio_helmet", BIO_MATERIAL, 0, EntityEquipmentSlot.HEAD);
         BIO_CHEST = new BioArmor("bio_chest", BIO_MATERIAL, 0, EntityEquipmentSlot.CHEST);
         BIO_LEGGINGS = new BioArmor("bio_leggings", BIO_MATERIAL, 0, EntityEquipmentSlot.LEGS);
@@ -77,6 +110,22 @@ public class ItemRegistry {
         registerItemRender(DISINFECTANT_FLUID);
         registerItemRender(VACCINE_INJECTOR);
         registerItemRender(VIAL);
+        registerItemRender(DNA_PATTERN);
+        registerItemRender(BAT_WING);
+        registerItemRender(WOLFS_TOOTH);
+        registerItemRender(ITEM_BLOOD);
+        registerItemRender(SPECTRAL_DUST);
+        registerItemRender(SPIDER_LEG);
+        registerItemRender(ENDER_CORE);
+        registerItemRender(DARK_HEART);
+        registerItemRender(GUARDIAN_BRAIN);
+        registerItemRender(GLOWING_LIQUID);
+        registerItemRender(STRANGE_LIQUID);
+        registerItemRender(CHICKEN_HEAD);
+        registerItemRender(BLAZE_CORE);
+        registerItemRender(HEART_OF_CREEPER);
+        registerItemRender(ENDER_SUBSTANCE);
+        registerItemRender(GENE_VIAL);
     }
 
     private static void registerItemRender(Item item){

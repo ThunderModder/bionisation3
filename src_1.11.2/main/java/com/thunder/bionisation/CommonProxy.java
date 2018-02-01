@@ -23,6 +23,7 @@ import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import com.thunder.worldgen.WorldGenBionisation;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
