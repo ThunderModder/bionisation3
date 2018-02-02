@@ -5,9 +5,7 @@ import com.thunder.block.crop.Garlic;
 import com.thunder.block.crop.Yarrow;
 import com.thunder.block.machine.BlockBMachine;
 import com.thunder.gui.BGuiHandler;
-import com.thunder.tileentity.TileDisinfector;
-import com.thunder.tileentity.TileHerbalStation;
-import com.thunder.tileentity.TileVaccineCreator;
+import com.thunder.tileentity.*;
 import com.thunder.util.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -34,11 +32,15 @@ public class BlockRegistry {
     public static BlockBMachine HERBAL_STATION;
     public static BlockBMachine DISINFECTOR;
     public static BlockBMachine VACCINE_CREATOR;
+    public static BlockBMachine DNA_FORMER;
+    public static BlockBMachine VIRUS_REPLICATOR;
 
     public static void initBlocksServer(){
         HERBAL_STATION = new BlockBMachine("blockherbalstation", BGuiHandler.HERBAL_STATION_GUI, TileHerbalStation.class);
         DISINFECTOR = new BlockBMachine("blockdisinfector", BGuiHandler.DISINFECTOR_GUI, TileDisinfector.class);
         VACCINE_CREATOR = new BlockBMachine("blockvaccinecreator", BGuiHandler.VACCINE_CREATOR_GUI, TileVaccineCreator.class);
+        DNA_FORMER = new BlockBMachine("blockdnaformer", BGuiHandler.DNA_FORMER_GUI, TileDNAFormer.class);
+        VIRUS_REPLICATOR = new BlockBMachine("blockvirusreplicator", BGuiHandler.VIRUS_REPLICATOR_GUI, TileVirusReplicator.class);
         GARLIC = new Garlic("garlic", Constants.STANDARTAXIS1_AABB, EnumPlantType.Plains);
         DILL = new Dill("dill", Constants.STANDARTAXIS3_AABB, EnumPlantType.Plains);
         YARROW = new Yarrow("yarrow", Constants.STANDARTAXIS2_AABB, EnumPlantType.Plains);
@@ -62,6 +64,8 @@ public class BlockRegistry {
         registerBlockRender(CRYSTAL_FLOWER);
         registerBlockRender(DISINFECTOR);
         registerBlockRender(VACCINE_CREATOR);
+        registerBlockRender(DNA_FORMER);
+        registerBlockRender(VIRUS_REPLICATOR);
     }
 
     private static void registerBlockRender(Block block){

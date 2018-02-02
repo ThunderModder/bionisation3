@@ -15,8 +15,8 @@ public class ContainerHerbalStation extends ContainerBMachine {
         this.addSlotToContainer(new Slot(machine, 3, 102, 17));
         this.addSlotToContainer(new Slot(machine, 4, 80, 61));
 
-        addAirSlotRange(2, 4);
-        addSpecialSlot(Items.POTIONITEM, 1);
-        addDefaultSlots(playerInventory);
+        this.addAirSlotRange(2, 4);
+        this.addSpecialSlot(Items.POTIONITEM, 1);
+        this.addDefaultSlots(playerInventory);
     }
 }

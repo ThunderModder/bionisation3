@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "bionisation3:blocks/blockdnaformer_top",
+    "front": "bionisation3:blocks/blockdnaformer_front_on",
+    "side": "bionisation3:blocks/blockdnaformer_side"
+  }
+}

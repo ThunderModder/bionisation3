@@ -16,9 +16,7 @@ import com.thunder.player.BioPlayerStorage;
 import com.thunder.player.IBioPlayer;
 import com.thunder.recipe.RecipeRegistry;
 import com.thunder.sound.SoundHandler;
-import com.thunder.tileentity.TileDisinfector;
-import com.thunder.tileentity.TileHerbalStation;
-import com.thunder.tileentity.TileVaccineCreator;
+import com.thunder.tileentity.*;
 import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import com.thunder.worldgen.WorldGenBionisation;
@@ -44,6 +42,8 @@ public class CommonProxy {
         GameRegistry.registerTileEntity(TileHerbalStation.class, Utilities.getModIdString("herbal_station"));
         GameRegistry.registerTileEntity(TileDisinfector.class, Utilities.getModIdString("disinfector"));
         GameRegistry.registerTileEntity(TileVaccineCreator.class, Utilities.getModIdString("vaccine_creator"));
+        GameRegistry.registerTileEntity(TileDNAFormer.class, Utilities.getModIdString("dna_former"));
+        GameRegistry.registerTileEntity(TileVirusReplicator.class, Utilities.getModIdString("virus_replicator"));
     }
 
     public void init() {

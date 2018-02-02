@@ -58,6 +58,8 @@ public class ItemRegistry {
     public static ItemBionisation ENDER_SUBSTANCE;
     public static ItemBionisation GENE_VIAL;
 
+    public static ItemBionisation VIRUS_SPRAYER;
+
     public static void initItemsServer(){
         GARLIC_BULB = new GarlicBulb("garlicbulb", BlockRegistry.GARLIC);
         DILL_SEED = new SeedBionisation("dillseed", BlockRegistry.DILL);
@@ -85,6 +87,7 @@ public class ItemRegistry {
         HEART_OF_CREEPER = new ItemBionisation("heartofcreeper", 16);
         ENDER_SUBSTANCE = new ItemBionisation("endersubstance", 16);
         GENE_VIAL = new GeneVial();
+        VIRUS_SPRAYER = new VirusSprayer();
         BIO_HELMET = new BioArmor("bio_helmet", BIO_MATERIAL, 0, EntityEquipmentSlot.HEAD);
         BIO_CHEST = new BioArmor("bio_chest", BIO_MATERIAL, 0, EntityEquipmentSlot.CHEST);
         BIO_LEGGINGS = new BioArmor("bio_leggings", BIO_MATERIAL, 0, EntityEquipmentSlot.LEGS);
@@ -126,6 +129,7 @@ public class ItemRegistry {
         registerItemRender(HEART_OF_CREEPER);
         registerItemRender(ENDER_SUBSTANCE);
         registerItemRender(GENE_VIAL);
+        registerItemRender(VIRUS_SPRAYER);
     }
 
     private static void registerItemRender(Item item){

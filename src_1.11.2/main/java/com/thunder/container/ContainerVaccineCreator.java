@@ -13,8 +13,8 @@ public class ContainerVaccineCreator extends ContainerBMachine {
         this.addSlotToContainer(new Slot(machine, 1, 69, 17));
         this.addSlotToContainer(new Slot(machine, 2, 91, 17));
         this.addSlotToContainer(new Slot(machine, 3, 80, 61));
-        addSpecialSlot(ItemRegistry.VIAL, 1);
-        addSpecialSlot(ItemRegistry.VACCINE_INJECTOR, 2);
-        addDefaultSlots(playerInventory);
+        this.addSpecialSlot(ItemRegistry.VIAL, 1);
+        this.addSpecialSlot(ItemRegistry.VACCINE_INJECTOR, 2);
+        this.addDefaultSlots(playerInventory);
     }
 }

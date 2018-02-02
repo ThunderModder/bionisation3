@@ -143,7 +143,7 @@ public class BStructure {
                             for(int ky = entry.getKey().getY() + 1; ky < world.getActualHeight(); ky++){
                                 BlockPos bpos = new BlockPos(kx, ky, kz);
                                 IBlockState st = world.getBlockState(bpos);
-                                if(st.getBlock() != Blocks.AIR || st.getBlock() instanceof BlockBush || st.getBlock() instanceof BlockLog){
+                                if(st.getBlock() != Blocks.AIR && !(st.getBlock() instanceof BlockBush) && !(st.getBlock() instanceof BlockLog)){
                                     world.setBlockState(bpos, (random.nextInt(2) == 0 ? Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.CRACKED) : Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.MOSSY)), 2);
                                 }else break;
                             }
@@ -155,7 +155,7 @@ public class BStructure {
                             for(int ky = entry.getKey().getY() + 1; ky < world.getActualHeight(); ky++){
                                 BlockPos bpos = new BlockPos(kx, ky, kz);
                                 IBlockState st = world.getBlockState(bpos);
-                                if(st.getBlock() != Blocks.AIR || st.getBlock() instanceof BlockBush || st.getBlock() instanceof BlockLog){
+                                if(st.getBlock() != Blocks.AIR && !(st.getBlock() instanceof BlockBush) && !(st.getBlock() instanceof BlockLog)){
                                     world.setBlockState(bpos, Blocks.AIR.getDefaultState(), 2);
                                 }else break;
                             }

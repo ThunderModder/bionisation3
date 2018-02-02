@@ -24,8 +24,8 @@ public class ContainerDisinfector extends ContainerBMachine {
             startY += 18;
         }
         this.addSlotToContainer(new Slot(machine, index, 152, 20));
-        addAirSlotRange(1, index);
-        addSpecialSlot(ItemRegistry.DISINFECTANT_FLUID, 16);
-        addDefaultSlots(playerInventory);
+        this.addAirSlotRange(1, index);
+        this.addSpecialSlot(ItemRegistry.DISINFECTANT_FLUID, 16);
+        this.addDefaultSlots(playerInventory);
     }
 }

@@ -463,15 +463,17 @@ public class CustomVirus extends AbstractCustomVirusEffect {
         AxisAlignedBB box = source.getEntityBoundingBox().expand(radius, radius, radius);
         List<Entity> entities = source.world.getEntitiesWithinAABBExcludingEntity(source, box);
         for (Entity e : entities){
-            if(e instanceof EntityPlayer){
-                EntityPlayer player = (EntityPlayer)e;
-                IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-                if(!hasFullBioArmor(player))
+            if(entity.isInstance(e)) {
+                if (e instanceof EntityPlayer) {
+                    EntityPlayer player = (EntityPlayer) e;
+                    IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
+                    if (!hasFullBioArmor(player))
+                        cap.addEffectIntoQueue(sample);
+                } else {
+                    EntityLivingBase ent = (EntityLivingBase) e;
+                    IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
                     cap.addEffectIntoQueue(sample);
-            }else{
-                EntityLivingBase ent = (EntityLivingBase)e;
-                IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
-                cap.addEffectIntoQueue(sample);
+                }
             }
         }
     }
