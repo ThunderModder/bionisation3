@@ -1,0 +1,10 @@
+{
+  "homepage": "<https://minecraft.curseforge.com/projects/bionisation-2/files/2462494>",
+  "<mcversion>": {
+    "<modversion>": "<changelog for this version>", 
+  },
+  "promos": {
+    "<mcversion>-latest": "<modversion>",
+    "<mcversion>-recommended": "<modversion>",
+  }
+}
