@@ -5,6 +5,7 @@ import com.thunder.laboratory.IVirus;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
@@ -61,10 +62,10 @@ public class Vial extends ItemBionisation {
         if(stack.hasTagCompound() && Utilities.getNbt(stack).hasKey(Utilities.getModIdString("sdna"))){
             NBTTagCompound nbt = Utilities.getNbt(stack);
             String [] dnas = nbt.getString(Utilities.getModIdString("sdna")).split("_");
-            tooltip.add(TextFormatting.GRAY + "Samples: ");
+            tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.vial.samples") + " ");
             for (String s : dnas){
                 if(!s.isEmpty())
-                    tooltip.add(TextFormatting.GRAY + "DNA: " + TextFormatting.RED + s);
+                    tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.vial.dna") + " " + TextFormatting.RED + s);
             }
         }
     }

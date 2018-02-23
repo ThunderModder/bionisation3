@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "bionisation3:blocks/garlic_stage_3"
+    }
+}

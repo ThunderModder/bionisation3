@@ -1,13 +1,12 @@
 package com.thunder.item;
 
-import com.thunder.bionisation.Information;
 import com.thunder.laboratory.EffectContainer;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.SampleType;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
-import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -49,7 +48,7 @@ public class CreativeVial extends ItemBionisation {
     @Override
     public void getSubItems(Item itemIn, CreativeTabs tab, NonNullList<ItemStack> subItems) {
         for(IBioSample smp : EffectContainer.getInstance().effects){
-            if(smp.getType() != SampleType.BACTERIA_CURE && smp.getType() != SampleType.EFFECT_CURE) {
+            if(smp.getType() != SampleType.BACTERIA_CURE && smp.getType() != SampleType.EFFECT_CURE && smp.getType() != SampleType.SYMBIONT) {
                 ItemStack stack = new ItemStack(this);
                 NBTTagCompound nbt = Utilities.getNbt(stack);
                 nbt.setInteger(Utilities.getModIdString("id"), smp.getId());
@@ -71,12 +70,12 @@ public class CreativeVial extends ItemBionisation {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
         if(stack.hasTagCompound()){
             NBTTagCompound nbt = Utilities.getNbt(stack);
-            tooltip.add("");
-            tooltip.add("Sample: " + TextFormatting.GREEN + nbt.getString(Utilities.getModIdString("name")));
-            tooltip.add("ID: " + TextFormatting.GREEN + nbt.getInteger(Utilities.getModIdString("id")));
-            tooltip.add("Type: " + TextFormatting.GREEN + nbt.getString(Utilities.getModIdString("type")));
-            tooltip.add("Power: " + TextFormatting.GREEN + nbt.getInteger(Utilities.getModIdString("power")));
-            tooltip.add("Duration: " + TextFormatting.GREEN + (nbt.getInteger(Utilities.getModIdString("duration")) == 0 ? "Infinite" : nbt.getInteger(Utilities.getModIdString("duration")) + " sec"));
+            String name = nbt.getString(Utilities.getModIdString("name")).replaceAll(" ", "_").toLowerCase();
+            tooltip.add(I18n.format("tooltip.creativevial.sample") + " " + TextFormatting.GREEN + I18n.format("tooltip.effect." + name));
+            tooltip.add(I18n.format("tooltip.creativevial.id") + " " + TextFormatting.GREEN + nbt.getInteger(Utilities.getModIdString("id")));
+            tooltip.add(I18n.format("tooltip.creativevial.type") + " " + TextFormatting.GREEN + I18n.format("tooltip.type." + nbt.getString(Utilities.getModIdString("type"))));
+            tooltip.add(I18n.format("tooltip.creativevial.power") + " " + TextFormatting.GREEN + nbt.getInteger(Utilities.getModIdString("power")));
+            tooltip.add(I18n.format("tooltip.creativevial.duration") + " " + TextFormatting.GREEN + (nbt.getInteger(Utilities.getModIdString("duration")) == 0 ? I18n.format("tooltip.creativevial.infinite") : nbt.getInteger(Utilities.getModIdString("duration")) + " " + I18n.format("tooltip.creativevial.sec")));
         }
     }
 }

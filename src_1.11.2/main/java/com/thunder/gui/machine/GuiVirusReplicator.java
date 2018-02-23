@@ -1,9 +1,7 @@
 package com.thunder.gui.machine;
 
 import com.thunder.bionisation.Information;
-import com.thunder.container.ContainerHerbalStation;
 import com.thunder.container.ContainerVirusReplicator;
-import com.thunder.tileentity.TileHerbalStation;
 import com.thunder.tileentity.TileVirusReplicator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +26,7 @@ public class GuiVirusReplicator extends GuiContainer {
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        String s = I18n.format("Virus Replicator");
+        String s = I18n.format("inventory.virusreplicator.name");
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
     }
 

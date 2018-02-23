@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "bionisation3:blocks/dill_stage_2"
+    }
+}

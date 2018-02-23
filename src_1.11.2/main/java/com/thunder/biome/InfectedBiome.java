@@ -1,6 +1,6 @@
 package com.thunder.biome;
 
-import com.thunder.block.BlockRegistry;
+import com.thunder.bionisation.Config;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockOldLeaf;
 import net.minecraft.block.BlockOldLog;
@@ -8,9 +8,6 @@ import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.ColorizerFoliage;
-import net.minecraft.world.ColorizerGrass;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenMegaJungle;
@@ -25,14 +22,14 @@ import java.util.Random;
 
 public class InfectedBiome extends Biome {
 
-    public static final int INFECTED_BIOME_ID = 100;
+    public static int INFECTED_BIOME_ID = Config.biomeID;
     public static Biome INFECTED_BIOME;
 
     public static void init(){
         INFECTED_BIOME = new InfectedBiome(new BiomeProperties("Infected Forest").setHeightVariation(0.9f).setWaterColor(0x058230).setTemperature(0.7F).setRainfall(0.8F));
         Biome.registerBiome(INFECTED_BIOME_ID, "Infected Forest", INFECTED_BIOME);
         BiomeDictionary.addTypes(INFECTED_BIOME, BiomeDictionary.Type.FOREST);
-        BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(INFECTED_BIOME, 100));
+        BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(INFECTED_BIOME, Config.biomeSpawnWeight));
         BiomeManager.addSpawnBiome(INFECTED_BIOME);
     }
 

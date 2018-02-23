@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "bionisation3:blockdnaformer" },
+    "facing=south": { "model": "bionisation3:blockdnaformer", "y": 180 },
+    "facing=west":  { "model": "bionisation3:blockdnaformer", "y": 270 },
+    "facing=east":  { "model": "bionisation3:blockdnaformer", "y": 90 }
+  }
+}

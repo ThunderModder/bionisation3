@@ -1,12 +1,12 @@
 package com.thunder.structure;
 
-import com.google.common.collect.Maps;
 import com.thunder.bionisation.Information;
 import com.thunder.item.GeneVial;
 import com.thunder.item.ItemBlood;
 import com.thunder.item.ItemRegistry;
+import com.thunder.item.SymbiontVial;
+import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockStoneBrick;
@@ -20,18 +20,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
-import net.minecraft.world.storage.loot.LootContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -184,18 +178,31 @@ public class BStructure {
                                             if(Utilities.getRandom(bundle.chance))
                                                 chest.setInventorySlotContents(index, bundle.item.copy());
                                         }
+                                        //add symbiont
+                                        int index = random.nextInt(size);
+                                        if(Utilities.getRandom(Constants.CHANCE_SYMBIONT_GEN))
+                                            chest.setInventorySlotContents(index, getRandomSymbiont());
                                     }
                                 }
                             }
                         }
                     }
 
-                    System.out.println("Generated:" + position.getX() + " " + position.getY() + " " + position.getZ());
+                    //System.out.println("Generated:" + position.getX() + " " + position.getY() + " " + position.getZ());
                     break;
                 }
 
             }
         }
+    }
+
+    private static ItemStack getRandomSymbiont(){
+        ItemStack stack = new ItemStack(ItemRegistry.SYMBIONT_VIAL);
+        NBTTagCompound nbt = Utilities.getNbt(stack);
+        int power = Utilities.random.nextInt(4);
+        int id = Utilities.random.nextInt(18) + 150;
+        nbt.setString(SymbiontVial.SYMBIONT_VIAL_KEY, id + ":" + power);
+        return  stack;
     }
 
     private static class LootBundle{

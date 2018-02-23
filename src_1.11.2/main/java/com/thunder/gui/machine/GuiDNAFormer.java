@@ -2,9 +2,7 @@ package com.thunder.gui.machine;
 
 import com.thunder.bionisation.Information;
 import com.thunder.container.ContainerDNAFormer;
-import com.thunder.container.ContainerHerbalStation;
 import com.thunder.tileentity.TileDNAFormer;
-import com.thunder.tileentity.TileHerbalStation;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -28,7 +26,7 @@ public class GuiDNAFormer extends GuiContainer {
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        String s = I18n.format("DNA Former");
+        String s = I18n.format("inventory.dnaformer.name");
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
     }
 

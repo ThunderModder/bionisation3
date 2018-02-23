@@ -1,9 +1,7 @@
 package com.thunder.gui.machine;
 
 import com.thunder.bionisation.Information;
-import com.thunder.container.ContainerHerbalStation;
 import com.thunder.container.ContainerVaccineCreator;
-import com.thunder.tileentity.TileHerbalStation;
 import com.thunder.tileentity.TileVaccineCreator;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -28,7 +26,7 @@ public class GuiVaccineCreator extends GuiContainer {
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        String s = I18n.format("Vaccine Creator");
+        String s = I18n.format("inventory.vaccinecreator.name");
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
     }
 

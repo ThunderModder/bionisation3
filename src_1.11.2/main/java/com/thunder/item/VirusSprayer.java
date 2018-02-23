@@ -4,6 +4,7 @@ import com.thunder.laboratory.samples.virus.custom.CustomVirus;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -54,10 +55,10 @@ public class VirusSprayer extends ItemBionisation {
         NBTTagCompound tag = Utilities.getNbt(stack);
         if(tag.hasKey(DNA_KEY)){
             String [] dna_array = tag.getString(DNA_KEY).split(":");
-            tooltip.add("Implemented genes:");
+            tooltip.add(I18n.format("tooltip.dna"));
             for (int i = 0; i < dna_array.length; i++) {
                 //to do: add text visualization. not numeric
-                tooltip.add((dna_array[i].isEmpty() || dna_array[i].equals("0") ? TextFormatting.RED + "<Empty>" : TextFormatting.GREEN + "<" + dna_array[i] + ">"));
+                tooltip.add((dna_array[i].isEmpty() || dna_array[i].equals("0") ? TextFormatting.RED + "<" + I18n.format("tooltip.empty") + ">" : TextFormatting.GREEN + "<" + I18n.format("tooltip.gene." + dna_array[i]) + ">"));
             }
         }
     }

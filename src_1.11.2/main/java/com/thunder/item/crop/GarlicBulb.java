@@ -37,7 +37,7 @@ public class GarlicBulb extends SeedBionisation {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-        tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.item_garlicbulb"));
+        tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.garlicbulb"));
     }
 
     @Nullable

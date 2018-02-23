@@ -2,9 +2,7 @@ package com.thunder.gui.machine;
 
 import com.thunder.bionisation.Information;
 import com.thunder.container.ContainerDisinfector;
-import com.thunder.container.ContainerHerbalStation;
 import com.thunder.tileentity.TileDisinfector;
-import com.thunder.tileentity.TileHerbalStation;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
@@ -28,7 +26,7 @@ public class GuiDisinfector extends GuiContainer {
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        String s = I18n.format("Disinfector");
+        String s = I18n.format("inventory.disinfector.name");
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
     }
 

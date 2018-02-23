@@ -1,11 +1,15 @@
 package com.thunder.bionisation;
 
+import com.thunder.bionisation.versions.VersionChecker;
 import com.thunder.command.BCommand;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 @Mod(name = Information.MOD_NAME,modid = Information.MOD_ID, version = Information.VERSION)
 public class Bionisation {
@@ -17,6 +21,8 @@ public class Bionisation {
     public static CommonProxy proxy;
 
     public static Configuration config;
+    public static VersionChecker checker;
+    public static boolean wasWarnedNewVersion = false;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

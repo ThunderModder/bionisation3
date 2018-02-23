@@ -26,7 +26,7 @@ public class GuiHerbalStation extends GuiContainer {
     }
 
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY){
-        String s = I18n.format("Herbal Station");
+        String s = I18n.format("inventory.herbalstation.name");
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
     }
 

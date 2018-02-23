@@ -1,51 +1,42 @@
 package com.thunder.event;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import com.thunder.bionisation.Bionisation;
 import com.thunder.bionisation.Config;
 import com.thunder.bionisation.Information;
-import com.thunder.laboratory.IBioSample;
-import com.thunder.laboratory.IVirus;
-import com.thunder.misc.*;
+import com.thunder.laboratory.ItemManager;
+import com.thunder.misc.BloodParticle;
+import com.thunder.misc.MyceliumParticle;
+import com.thunder.misc.ParticleBStandart;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.sound.SoundHandler;
-import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.shader.ShaderGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.terraingen.BiomeEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.lwjgl.opengl.ARBShaderObjects;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.io.IOException;
-
-import static com.thunder.util.Utilities.*;
 import static com.thunder.util.Constants.*;
+import static com.thunder.util.Utilities.*;
 
 
 public class ClientEventHandler extends Gui {
@@ -77,10 +68,9 @@ public class ClientEventHandler extends Gui {
     public void renderItemOverlay(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         if(stack != null) {
-            String key = Utilities.getModIdString("eff_list");
             NBTTagCompound tag = getNbt(stack);
-            if(tag.hasKey(key)) {
-                event.getToolTip().add(ChatFormatting.RED + "Infected");
+            if(tag.hasKey(ItemManager.KEY)) {
+                event.getToolTip().add(ChatFormatting.RED + I18n.format("tooltip.infected"));
             }
         }
     }
@@ -101,7 +91,7 @@ public class ClientEventHandler extends Gui {
                 if (isTickerEqual(cap.getTicker(), 200) && cap.getBloodLevel() < 60)
                     world.playSound(player, player.getPosition(), SoundHandler.SOUND_HBREATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 //effect debug
-                if(isEffectActive(ID_SEABACTERIA, player) && player.isInWater()){
+                if((isEffectActive(ID_SEABACTERIA, player) || isEffectActive(ID_WAFFINITY_SYMBIONT, player)) && player.isInWater()){
                     player.motionX *= 1.2000000000000003D;
                     player.motionZ *= 1.2000000000000003D;
                 }
@@ -237,5 +227,20 @@ public class ClientEventHandler extends Gui {
         event.getMap().registerSprite(PARTICLE_WHITE_TEXTURE);
         event.getMap().registerSprite(PARTICLE_VIOLET_TEXTURE);
         event.getMap().registerSprite(PARTICLE_CYAN_TEXTURE);
+    }
+
+    @SubscribeEvent
+    public void onUpdateEvent(TickEvent.PlayerTickEvent event) {
+        if (Config.canShowUpdates && !Bionisation.wasWarnedNewVersion && event.player.world.isRemote && !Bionisation.checker.isLatestVersion()) {
+            if(Bionisation.checker.getLatestVersion().equals("") || Bionisation.checker.getNewVersionURL().equals("") || Bionisation.checker.getChanges().equals(""))
+                event.player.sendMessage(new TextComponentString(I18n.format("checker.message.cant")));
+            else {
+                event.player.sendMessage(ForgeHooks.newChatWithLinks(TextFormatting.YELLOW + I18n.format("checker.message.version") + " " + TextFormatting.AQUA + Bionisation.checker.getLatestVersion() + " " + TextFormatting.YELLOW + I18n.format("checker.message.av") + TextFormatting.BLUE + " " +  Bionisation.checker.getNewVersionURL()));
+                event.player.sendMessage(new TextComponentString(""));
+                event.player.sendMessage(new TextComponentString(TextFormatting.YELLOW + I18n.format("checker.message.changes") + " " + TextFormatting.GRAY + Bionisation.checker.getChanges()));
+                Bionisation.wasWarnedNewVersion = true;
+            }
+        }
+
     }
 }

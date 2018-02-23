@@ -1,22 +1,18 @@
 package com.thunder.item;
 
-import com.thunder.laboratory.EffectContainer;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.IVirus;
-import com.thunder.laboratory.SampleType;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -62,8 +58,8 @@ public class VaccineInjector extends ItemBionisation {
         if(stack.hasTagCompound() && Utilities.getNbt(stack).hasKey(Utilities.getModIdString("vdna"))){
             NBTTagCompound nbt = Utilities.getNbt(stack);
             String stab = nbt.getString(Utilities.getModIdString("vstability"));
-            tooltip.add("Vaccine: " + (stab.equals("Stable") ? TextFormatting.GREEN : TextFormatting.RED) + stab);
-            tooltip.add("DNA: " + TextFormatting.GREEN + nbt.getString(Utilities.getModIdString("vdna")));
+            tooltip.add(I18n.format("tooltip.injector.vaccine") + " " + (stab.equals("Stable") ? TextFormatting.GREEN : TextFormatting.RED) + I18n.format("tooltip.injector." + stab.toLowerCase()));
+            tooltip.add(I18n.format("tooltip.injector.dna") + " " + TextFormatting.GREEN + nbt.getString(Utilities.getModIdString("vdna")));
         }
     }
 

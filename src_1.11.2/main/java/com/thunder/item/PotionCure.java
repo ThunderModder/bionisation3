@@ -7,13 +7,16 @@ import com.thunder.laboratory.SampleType;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionUtils;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
@@ -79,8 +82,10 @@ public class PotionCure extends ItemBionisation {
     public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
        if(stack.hasTagCompound()){
            NBTTagCompound nbt = Utilities.getNbt(stack);
-           if(nbt.hasKey(BKEY_ID))
-               tooltip.add(ChatFormatting.GREEN + Utilities.findEffectById(nbt.getInteger(BKEY_ID)).getName());
+           if(nbt.hasKey(BKEY_ID)) {
+               String name = Utilities.findEffectById(nbt.getInteger(BKEY_ID)).getName().replace("Cure: ", "");
+               tooltip.add(I18n.format("tooltip.cure") + " " + ChatFormatting.GREEN + I18n.format("tooltip.effect." + name.replaceAll(" ", "_").toLowerCase()));
+           }
        }
     }
 

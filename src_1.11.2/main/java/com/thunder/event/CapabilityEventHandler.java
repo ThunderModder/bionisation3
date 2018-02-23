@@ -2,20 +2,16 @@ package com.thunder.event;
 
 import com.thunder.bionisation.Config;
 import com.thunder.bionisation.Information;
+import com.thunder.laboratory.AbstractEffect;
 import com.thunder.laboratory.EventType;
 import com.thunder.laboratory.IBioSample;
-import com.thunder.laboratory.samples.EffectFracture;
-import com.thunder.laboratory.samples.EffectInternalBleeding;
 import com.thunder.mob.BioMobProvider;
 import com.thunder.mob.IBioMob;
 import com.thunder.network.NetworkHandler;
 import com.thunder.network.SyncAllCapMessage;
-import com.thunder.network.SyncBloodCapMessage;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
-import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -30,11 +26,10 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerChangedDimensionEvent;
 
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 
@@ -126,6 +121,11 @@ public class CapabilityEventHandler {
                     if (smp.isNeedToBeSynced()) needSync = true;
                     if (smp.isExpired()) {
                         Utilities.clearObservablePotions(smp.getObservablePotionEffects(), player);
+                        if(smp.getDangerous()){
+                            AbstractEffect.removeEffect(smp, player.inventory.mainInventory);
+                            AbstractEffect.removeEffect(smp, player.inventory.armorInventory);
+                            AbstractEffect.removeEffect(smp, player.inventory.offHandInventory);
+                        }
                         it.remove();
                         cap.syncAllCap(player);
                     } else smp.performEffectPlayer(event, player, EventType.TICK, cap);
@@ -233,16 +233,9 @@ public class CapabilityEventHandler {
             }else{
                 IBioMob cap = ent.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
                 Iterator<IBioSample> it = cap.getEffectList().iterator();
-                String name = "";
                 while(it.hasNext()){
-                    try {
-                        IBioSample smp = it.next();
-                        name = smp.getName();
-                        smp.performEffectEntity(event, ent, EventType.DEATH, cap);
-                    } catch (ConcurrentModificationException ex){
-                        ex.printStackTrace();
-                        System.out.println("NAAAAAAAAAAAAAAAAAAAAAAAMEEEEEEEEEEEEEEEEEEEEE:" + name);
-                    }
+                    IBioSample smp = it.next();
+                    smp.performEffectEntity(event, ent, EventType.DEATH, cap);
                 }
             }
         }

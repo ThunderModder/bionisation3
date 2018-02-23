@@ -2,19 +2,17 @@ package com.thunder.container;
 
 
 import com.google.common.collect.Maps;
+import com.thunder.tileentity.TileBMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class ContainerBMachine extends Container {
 
@@ -26,9 +24,12 @@ public abstract class ContainerBMachine extends Container {
     private int currentSize = 1;
     private int [] airSlots;
 
+    private EntityPlayer player;
+
     protected ContainerBMachine(InventoryPlayer playerInventory, IInventory machine, int invSize, int fx, int fy) {
         this.machine = machine;
         this.currentSize += invSize;
+        this.player = playerInventory.player;
         this.fields = new int [machine.getFieldCount()];
         this.airSlots = new int []{-1, -1};
         //vanilla slots
@@ -68,6 +69,12 @@ public abstract class ContainerBMachine extends Container {
         }
         for(int k = 0; k < this.machine.getFieldCount(); k++){
             this.fields[k] = this.machine.getField(k);
+        }
+        //check creative
+        if(machine instanceof TileBMachine) {
+            if (player.capabilities.isCreativeMode)
+                ((TileBMachine)machine).setCreative(true);
+            else ((TileBMachine)machine).setCreative(false);
         }
     }
 

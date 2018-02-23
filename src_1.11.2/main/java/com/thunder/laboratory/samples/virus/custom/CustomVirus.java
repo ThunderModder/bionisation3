@@ -2,11 +2,7 @@ package com.thunder.laboratory.samples.virus.custom;
 
 import com.thunder.laboratory.EventType;
 import com.thunder.laboratory.IBioSample;
-import com.thunder.laboratory.IVirus;
 import com.thunder.laboratory.SampleType;
-import com.thunder.laboratory.samples.virus.EnderVirus;
-import com.thunder.laboratory.samples.virus.ICustomVirus;
-import com.thunder.laboratory.samples.virus.Rabies;
 import com.thunder.misc.ai.EntityAIAttackPeaceful;
 import com.thunder.misc.ai.EntityAINearestAttackableTargetR;
 import com.thunder.misc.ai.EntityAINearestAttackableTargetWithWhiteList;
@@ -15,7 +11,6 @@ import com.thunder.mob.IBioMob;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
@@ -30,13 +25,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 import java.util.List;
 
-import static com.thunder.util.Utilities.*;
 import static com.thunder.util.Constants.*;
+import static com.thunder.util.Utilities.*;
 
 public class CustomVirus extends AbstractCustomVirusEffect {
 
@@ -52,6 +46,7 @@ public class CustomVirus extends AbstractCustomVirusEffect {
         String [] dna = this.getDNA().split(":");
         boolean isTickEvent = false;
         if(type == EventType.TICK)  isTickEvent = true;
+        boolean isMutate = false;
         for(String s : dna){
             switch (s){
                 case "1":
@@ -197,12 +192,16 @@ public class CustomVirus extends AbstractCustomVirusEffect {
                     }
                     break;
                 case "36":
-                    if(!canMutate) canMutate = true;
+                    if(!canMutate) {
+                        canMutate = true;
+                        isMutate = true;
+                    }
                     break;
                 default:
                     break;
             }
         }
+        if(canMutate && !isMutate) canMutate = false;
     }
 
     @Override
@@ -210,6 +209,7 @@ public class CustomVirus extends AbstractCustomVirusEffect {
         String [] dna = this.getDNA().split(":");
         boolean isTickEvent = false;
         if(type == EventType.TICK)  isTickEvent = true;
+        boolean isMutate = false;
         for(String s : dna){
             switch (s){
                 case "1":
@@ -443,19 +443,29 @@ public class CustomVirus extends AbstractCustomVirusEffect {
                     }
                     break;
                 case "36":
-                    if(!canMutate) canMutate = true;
+                    if(!canMutate) {
+                        canMutate = true;
+                        isMutate = true;
+                    }
                     break;
                 default:
                     break;
             }
         }
+        if(canMutate && !isMutate) canMutate = false;
     }
 
     public void addOrReaddObservable(){
         this.observablePotions.clear();
         for(String s: this.getDNA().split(":")){
             int i = Integer.parseInt(s);
-            if(i < 26) this.observablePotions.add(i);
+            if(i == 0) continue;
+            //lets use kostyli
+            if(i <= 5) this.observablePotions.add(i);
+            else if(i == 6) this.observablePotions.add(21);
+            else if(i >= 7 && i <= 19) this.observablePotions.add(i + 1);
+            else if(i == 20) this.observablePotions.add(22);
+            else if(i > 20 && i <= 25) this.observablePotions.add(i + 2);
         }
     }
 
@@ -475,6 +485,12 @@ public class CustomVirus extends AbstractCustomVirusEffect {
                     cap.addEffectIntoQueue(sample);
                 }
             }
+        }
+        if(source instanceof EntityPlayer){
+            EntityPlayer player = (EntityPlayer) source;
+            IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
+            if (!hasFullBioArmor(player))
+                cap.addEffectIntoQueue(sample);
         }
     }
 }

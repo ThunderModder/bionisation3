@@ -1,10 +1,9 @@
 package com.thunder.event;
 
 import com.thunder.biome.InfectedBiome;
-import com.thunder.item.ItemBionisation;
+import com.thunder.bionisation.Config;
 import com.thunder.item.ItemBlood;
 import com.thunder.item.ItemRegistry;
-import com.thunder.laboratory.EventType;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.ItemManager;
 import com.thunder.laboratory.samples.*;
@@ -14,17 +13,15 @@ import com.thunder.mob.BioMobProvider;
 import com.thunder.mob.IBioMob;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
-import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.*;
 import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.*;
+import net.minecraft.entity.passive.EntityBat;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.init.Biomes;
@@ -32,25 +29,18 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import static com.thunder.util.Utilities.*;
 import static com.thunder.util.Constants.*;
+import static com.thunder.util.Utilities.*;
 
 
 public class EffectEventHandler {
@@ -69,7 +59,7 @@ public class EffectEventHandler {
                 IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
                 int ticker = cap.getTicker();
                 //mutation
-                if(isTickerEqual(ticker, MUTATION_PROCESS_DELAY) && getRandom(CHANCE_MUTATION_PROCESS))
+                if(isTickerEqual(cap.getTicker(), MUTATION_PROCESS_DELAY) && getRandom(CHANCE_MUTATION_PROCESS))
                     startMutation(player, CHANCE_MUTATION_VIRUS);
                 //revision
                 if(isTickerEqual(ticker, 300) && getRandom(REVISION_CHANCE)){
@@ -375,12 +365,12 @@ public class EffectEventHandler {
         //Modifying drops
         EntityLivingBase entity = event.getEntityLiving();
         if(!entity.world.isRemote) {
-           /* if(entity instanceof EntityCreature && getRandom(20)){
+            if(Config.canSpawnBloodVial && entity instanceof EntityCreature && getRandom(20)){
                 ItemStack stack = new ItemStack(ItemRegistry.ITEM_BLOOD);
                 NBTTagCompound tag = getNbt(stack);
                 tag.setString(ItemBlood.BLOOD_KEY, entity.getName());
                 entity.entityDropItem(stack, 0.1f);
-            }*/
+            }
             if (entity instanceof EntityBat) {
                 if (getRandom(20)) entity.dropItem(ItemRegistry.BAT_WING, 1);
             } else if (entity instanceof EntityWolf) {
