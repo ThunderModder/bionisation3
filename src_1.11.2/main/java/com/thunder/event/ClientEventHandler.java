@@ -67,8 +67,8 @@ public class ClientEventHandler extends Gui {
     @SubscribeEvent
     public void renderItemOverlay(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if(stack != null) {
-            NBTTagCompound tag = getNbt(stack);
+        if(stack != null && stack.hasTagCompound()) {
+            NBTTagCompound tag = stack.getTagCompound();
             if(tag.hasKey(ItemManager.KEY)) {
                 event.getToolTip().add(ChatFormatting.RED + I18n.format("tooltip.infected"));
             }

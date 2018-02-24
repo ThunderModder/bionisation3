@@ -33,7 +33,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import static com.thunder.util.Constants.*;
-import static com.thunder.util.Utilities.*;
+import static com.thunder.util.Utilities.isEffectActive;
+import static com.thunder.util.Utilities.isTickerEqual;
 
 
 public class ClientEventHandler extends Gui {
@@ -52,8 +53,8 @@ public class ClientEventHandler extends Gui {
     @SubscribeEvent
     public void renderItemOverlay(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
-        if(stack != null) {
-            NBTTagCompound tag = getNbt(stack);
+        if(stack != null && stack.hasTagCompound()) {
+            NBTTagCompound tag = stack.getTagCompound();
             if(tag.hasKey(ItemManager.KEY)) {
                 event.getToolTip().add(ChatFormatting.RED + I18n.format("tooltip.infected"));
             }
