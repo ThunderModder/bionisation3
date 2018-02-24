@@ -1,1 +1,1 @@
-1.0.0_https://minecraft.curseforge.com/projects/bionisation-3_Fixes
+1.0.1_https://minecraft.curseforge.com/projects/bionisation-3/files/2534593_Fixed world loading bug with other mods
