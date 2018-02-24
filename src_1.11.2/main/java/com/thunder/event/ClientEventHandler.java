@@ -232,8 +232,10 @@ public class ClientEventHandler extends Gui {
     @SubscribeEvent
     public void onUpdateEvent(TickEvent.PlayerTickEvent event) {
         if (Config.canShowUpdates && !Bionisation.wasWarnedNewVersion && event.player.world.isRemote && !Bionisation.checker.isLatestVersion()) {
-            if(Bionisation.checker.getLatestVersion().equals("") || Bionisation.checker.getNewVersionURL().equals("") || Bionisation.checker.getChanges().equals(""))
+            if(Bionisation.checker.getLatestVersion().equals("") || Bionisation.checker.getNewVersionURL().equals("") || Bionisation.checker.getChanges().equals("")) {
                 event.player.sendMessage(new TextComponentString(I18n.format("checker.message.cant")));
+                Bionisation.wasWarnedNewVersion = true;
+            }
             else {
                 event.player.sendMessage(ForgeHooks.newChatWithLinks(TextFormatting.YELLOW + I18n.format("checker.message.version") + " " + TextFormatting.AQUA + Bionisation.checker.getLatestVersion() + " " + TextFormatting.YELLOW + I18n.format("checker.message.av") + TextFormatting.BLUE + " " +  Bionisation.checker.getNewVersionURL()));
                 event.player.sendMessage(new TextComponentString(""));
