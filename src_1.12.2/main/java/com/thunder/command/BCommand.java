@@ -1,5 +1,6 @@
 package com.thunder.command;
 
+import com.thunder.laboratory.AbstractEffect;
 import com.thunder.laboratory.IBioSample;
 import com.thunder.mob.BioMobProvider;
 import com.thunder.mob.IBioMob;
@@ -54,8 +55,15 @@ public class BCommand extends CommandBase {
                         if(e instanceof EntityPlayer){
                             EntityPlayer player = (EntityPlayer) e;
                             IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-                            if(cap != null)
+                            if(cap != null) {
+                                for(IBioSample sample : cap.getEffectList()){
+                                    AbstractEffect.removeEffect(sample, player.inventory.mainInventory);
+                                    AbstractEffect.removeEffect(sample, player.inventory.armorInventory);
+                                    AbstractEffect.removeEffect(sample, player.inventory.offHandInventory);
+                                }
+                                cap.clearQueuedEffects();
                                 cap.clearEffects(player);
+                            }
                         }else{
                             IBioMob cap = e.getCapability(BioMobProvider.BIO_MOB_CAPABILITY, null);
                             if(cap != null)

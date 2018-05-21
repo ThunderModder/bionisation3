@@ -31,23 +31,22 @@ public class Vial extends ItemBionisation {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack stack = playerIn.getHeldItemMainhand();
         if(!worldIn.isRemote) {
-            if(stack.hasTagCompound()){
-                NBTTagCompound nbt = Utilities.getNbt(stack);
-                IBioPlayer cap = playerIn.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-                if(!nbt.hasKey(Utilities.getModIdString("sdna"))) {
-                    String dna = "";
-                    for (IBioSample smp : cap.getEffectList()) {
-                        if (smp instanceof IVirus) {
-                            IVirus virus = (IVirus) smp;
-                            if (virus.hasDNA() && !virus.isHidden()) {
-                                dna += virus.getDNA() + "_";
-                            }
+            NBTTagCompound nbt = Utilities.getNbt(stack);
+            IBioPlayer cap = playerIn.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
+            if(!nbt.hasKey(Utilities.getModIdString("sdna"))) {
+                String dna = "";
+                for (IBioSample smp : cap.getEffectList()) {
+                    if (smp instanceof IVirus) {
+                        IVirus virus = (IVirus) smp;
+                        if (virus.hasDNA() && !virus.isHidden()) {
+                            dna += virus.getDNA() + "_";
                         }
                     }
-                    if (!dna.isEmpty())
-                        nbt.setString(Utilities.getModIdString("sdna"), dna);
                 }
+                if (!dna.isEmpty())
+                    nbt.setString(Utilities.getModIdString("sdna"), dna);
             }
+
         }
         return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
     }
