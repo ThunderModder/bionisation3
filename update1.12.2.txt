@@ -1,1 +1,1 @@
-1.0.2_https://minecraft.curseforge.com/projects/bionisation-3/files/2534642_Fixed update checker spam
+1.0.3_https://minecraft.curseforge.com/projects/bionisation-3/files/2564069_Release! Fixed Vial usage, added new command feature, lang fixes
