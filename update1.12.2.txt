@@ -1,1 +1,1 @@
-1.0.3_https://minecraft.curseforge.com/projects/bionisation-3/files/2564069_Release! Fixed Vial usage, added new command feature, lang fixes
+1.0.4_https://minecraft.curseforge.com/projects/bionisation-3/files/2566044_Added new config options(on/off infected items, on/off virus mutation, on/off effects for peaceful mobs). Added Splint to cure Fracture.
