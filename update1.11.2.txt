@@ -1,1 +1,1 @@
-1.0.3_https://minecraft.curseforge.com/projects/bionisation-3/files/2564068_Fixed Vial
+1.0.3_https://minecraft.curseforge.com/projects/bionisation-3/files/2564068_Release! Fixed Vial usage, added new command feature, lang fixes
