@@ -82,16 +82,16 @@ public class EffectEventHandler {
                 IBioPlayer cap = player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
                 int ticker = cap.getTicker();
                 //mutation
-                if(isTickerEqual(cap.getTicker(), MUTATION_PROCESS_DELAY) && getRandom(CHANCE_MUTATION_PROCESS))
+                if(!Config.disableVirusMutations && isTickerEqual(cap.getTicker(), MUTATION_PROCESS_DELAY) && getRandom(CHANCE_MUTATION_PROCESS))
                     startMutation(player, CHANCE_MUTATION_VIRUS);
                 //revision
-                if(isTickerEqual(ticker, 300) && getRandom(REVISION_CHANCE)){
+                if(!Config.disableInfectedItems && isTickerEqual(ticker, 2400) && getRandom(REVISION_CHANCE)){
                     if(!hasFullBioArmor(player))
                         ItemManager.startRevision(player, cap, 1);
                     else
                         ItemManager.startRevision(player, cap, 2);
                 }
-                if(isTickerEqual(ticker, 600) && getRandom(REVISION_CHANCE)){
+                if(!Config.disableInfectedItems && isTickerEqual(ticker, 2400) && getRandom(REVISION_CHANCE)){
                     if(!hasFullBioArmor(player))
                         ItemManager.expose(player, cap, 1);
                     else if(isBioArmorInfected(player.inventory.armorInventory))

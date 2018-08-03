@@ -146,22 +146,22 @@ public class GuiGuideBook extends GuiScreen {
      }else{
          switch(parButton.id){
              case 3:
-                 currPage = 5;
+                 currPage = 7;
                  break;
              case 4:
-                 currPage = 10;
+                 currPage = 12;
                  break;
              case 5:
-                 currPage = 15;
+                 currPage = 19;
                  break;
              case 6:
-                 currPage = 26;
+                 currPage = 30;
                  break;
              case 7:
-                 currPage = 40;
+                 currPage = 44;
                  break;
              case 8:
-                 currPage = 60;
+                 currPage = 64;
                  break;
              case 9:
                  currPage = 79;

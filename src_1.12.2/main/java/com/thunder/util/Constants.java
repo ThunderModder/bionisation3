@@ -88,6 +88,9 @@ public class Constants {
 
     public static final int ID_EFFECT_IMMUNITY = 114;
 
+    public static final int ID_CURE_WEAKANTIBIOTIC = 115;
+    public static final int ID_CURE_STRONGANTIBIOTIC = 116;
+
     public static final int ID_GIANT_VIRUS = 50;
     public static final int ID_PTERO_VIRUS = 51;
     public static final int ID_ENDER_VIRUS = 52;

@@ -71,4 +71,6 @@ public class BlockRegistry {
     private static void registerBlockRender(Block block){
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(block.getRegistryName(), "inventory"));
     }
+
+
 }

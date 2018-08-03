@@ -39,7 +39,7 @@ public class VirusSprayer extends ItemBionisation {
             if(tag.hasKey(DNA_KEY)){
                 String dna = tag.getString(DNA_KEY);
                 IBioPlayer cap = playerIn.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-                CustomVirus virus = new CustomVirus(Utilities.random.nextInt(Integer.MAX_VALUE - 1000) + 1000, -1, Utilities.getPowerFromImmunity(cap.getImmunityLevel()), true, "Virus " + dna, dna);
+                CustomVirus virus = new CustomVirus(Utilities.random.nextInt(Integer.MAX_VALUE - 1000) + 1000, -1, Utilities.getPowerFromImmunity(cap.getImmunityLevel()), true, "Virus " + "(" + dna + ")", dna);
                 CustomVirus.spreadCustomEffect(virus, playerIn, EntityLivingBase.class, 15);
                 tag.removeTag(DNA_KEY);
             }

@@ -16,5 +16,6 @@ public class NetworkHandler {
 		network.registerMessage(SyncBloodCapMessage.Handler.class, SyncBloodCapMessage.class, 0, Side.CLIENT);
 		network.registerMessage(SyncAllCapMessage.Handler.class, SyncAllCapMessage.class, 1, Side.CLIENT);
 		network.registerMessage(SyncEntityCapMessage.Handler.class, SyncEntityCapMessage.class, 2, Side.CLIENT);
+		network.registerMessage(OpenAnalyzerGuiMessage.Handler.class, OpenAnalyzerGuiMessage.class, 3, Side.CLIENT);
 	}	
 }

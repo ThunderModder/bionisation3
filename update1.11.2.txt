@@ -1,1 +1,1 @@
-1.0.2_https://minecraft.curseforge.com/projects/bionisation-3/files/2534641_Fixed update checker spam
+1.0.3_https://minecraft.curseforge.com/projects/bionisation-3/files/2564068_Fixed Vial

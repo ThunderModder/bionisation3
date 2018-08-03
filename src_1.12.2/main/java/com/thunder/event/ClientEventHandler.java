@@ -32,6 +32,8 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.List;
+
 import static com.thunder.util.Constants.*;
 import static com.thunder.util.Utilities.isEffectActive;
 import static com.thunder.util.Utilities.isTickerEqual;
@@ -210,7 +212,11 @@ public class ClientEventHandler extends Gui {
             else {
                 event.player.sendMessage(ForgeHooks.newChatWithLinks(TextFormatting.YELLOW + I18n.format("checker.message.version") + " " + TextFormatting.AQUA + Bionisation.checker.getLatestVersion() + " " + TextFormatting.YELLOW + I18n.format("checker.message.av") + TextFormatting.BLUE + " " +  Bionisation.checker.getNewVersionURL()));
                 event.player.sendMessage(new TextComponentString(""));
-                event.player.sendMessage(new TextComponentString(TextFormatting.YELLOW + I18n.format("checker.message.changes") + " " + TextFormatting.GRAY + Bionisation.checker.getChanges()));
+                event.player.sendMessage(new TextComponentString(TextFormatting.YELLOW + I18n.format("checker.message.changes")));
+                List<String> info = Bionisation.checker.getChanges();
+                for (String s : info) {
+                    event.player.sendMessage(new TextComponentString(TextFormatting.GRAY + s));
+                }
                 Bionisation.wasWarnedNewVersion = true;
             }
         }

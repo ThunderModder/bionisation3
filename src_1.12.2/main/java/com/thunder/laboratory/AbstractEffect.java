@@ -1,10 +1,12 @@
 package com.thunder.laboratory;
 
+import com.thunder.bionisation.Config;
 import com.thunder.mob.IBioMob;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Constants;
 import com.thunder.util.Utilities;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -187,6 +189,10 @@ public abstract class AbstractEffect implements IBioSample, Serializable {
     @Override
     public void performEffectEntity(Event event, EntityLivingBase entity, EventType type, IBioMob cap) {
         if(type == EventType.TICK) {
+            if(Config.disableForPeaceful && !(entity instanceof IMob)){
+                isExpired = true;
+                return;
+            }
             if (!isInfinite && duration <= 0) isExpired = true;
             else if(!isInfinite) duration--;
             if(isInfinite){

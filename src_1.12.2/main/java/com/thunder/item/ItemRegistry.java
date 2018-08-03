@@ -63,6 +63,11 @@ public class ItemRegistry {
 
     public static ItemBionisation PROCESSOR;
     public static ItemBionisation CLOTH;
+    public static ItemBionisation SPLINT;
+
+    public static ItemBionisation ANTIBIOTIC;
+
+    public static ItemBionisation BIO_ABALYZER;
 
     public static ItemBionisation GUIDE_BOOK;
 
@@ -76,7 +81,9 @@ public class ItemRegistry {
         CLOTH = new ItemBionisation("cloth", 64);
         GUIDE_BOOK = new GuideBook();
         IMMUNITY_RECEIVER = new ImmunityReceiver();
+        BIO_ABALYZER = new BioAnalyzer();
         BANDAGE = new Bandage();
+        SPLINT = new Splint();
         DISINFECTANT_FLUID = new ItemBionisation("disinfectantfluid", 1);
         VACCINE_INJECTOR = new VaccineInjector();
         VIAL = new Vial();
@@ -102,6 +109,7 @@ public class ItemRegistry {
         BIO_CHEST = new BioArmor("bio_chest", BIO_MATERIAL, 0, EntityEquipmentSlot.CHEST);
         BIO_LEGGINGS = new BioArmor("bio_leggings", BIO_MATERIAL, 0, EntityEquipmentSlot.LEGS);
         BIO_BOOTS = new BioArmor("bio_boots", BIO_MATERIAL, 0, EntityEquipmentSlot.FEET);
+        ANTIBIOTIC = new Antibiotic("antibiotic");
         CREATIVE_VIAL = new CreativeVial();
         POTION_CURE = new PotionCure();
     }
@@ -109,6 +117,7 @@ public class ItemRegistry {
     public static void initItemsClient(){
         registerItemRender(IMMUNITY_RECEIVER);
         registerItemRender(BANDAGE);
+        registerItemRender(SPLINT);
         registerItemRender(CREATIVE_VIAL);
         registerItemRender(GARLIC_BULB);
         registerItemRender(DILL_SEED);
@@ -144,6 +153,8 @@ public class ItemRegistry {
         registerItemRender(VIRUS_SPRAYER);
         registerItemRender(SYMBIONT_VIAL);
         registerItemRender(GUIDE_BOOK);
+        registerItemRender(ANTIBIOTIC);
+        registerItemRender(BIO_ABALYZER);
     }
 
     private static void registerItemRender(Item item){

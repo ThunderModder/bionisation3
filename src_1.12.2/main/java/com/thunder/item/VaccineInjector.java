@@ -2,6 +2,7 @@ package com.thunder.item;
 
 import com.thunder.laboratory.IBioSample;
 import com.thunder.laboratory.IVirus;
+import com.thunder.mob.IBioMob;
 import com.thunder.player.BioPlayerProvider;
 import com.thunder.player.IBioPlayer;
 import com.thunder.util.Utilities;
@@ -24,6 +25,8 @@ import java.util.List;
 
 public class VaccineInjector extends ItemBionisation {
 
+    public static final int VACCINE_CURE_DURATION = 1200;
+
     public VaccineInjector(){
         super();
         setMaxStackSize(1);
@@ -35,10 +38,11 @@ public class VaccineInjector extends ItemBionisation {
         if(!worldIn.isRemote) {
             if(stack.hasTagCompound()){
                 NBTTagCompound nbt = Utilities.getNbt(stack);
+                if(!nbt.hasKey(Utilities.getModIdString("vdna"))) return new ActionResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
                 IBioPlayer cap = playerIn.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
                 String stab = nbt.getString(Utilities.getModIdString("vstability"));
                 String dna = nbt.getString(Utilities.getModIdString("vdna"));
-                if(stab.equals("Stable"))
+                if (stab.equals("Stable"))
                     applyVaccine(cap, dna, false);
                 else {
                     applyVaccine(cap, dna, Utilities.random.nextInt(2) == 1);
@@ -57,15 +61,17 @@ public class VaccineInjector extends ItemBionisation {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if(stack.hasTagCompound() && Utilities.getNbt(stack).hasKey(Utilities.getModIdString("vdna"))){
+        if(stack.hasTagCompound()){
             NBTTagCompound nbt = Utilities.getNbt(stack);
-            String stab = nbt.getString(Utilities.getModIdString("vstability"));
-            tooltip.add(I18n.format("tooltip.injector.vaccine") + " " + (stab.equals("Stable") ? TextFormatting.GREEN : TextFormatting.RED) + I18n.format("tooltip.injector." + stab.toLowerCase()));
-            tooltip.add(I18n.format("tooltip.injector.dna") + " " + TextFormatting.GREEN + nbt.getString(Utilities.getModIdString("vdna")));
+            if(Utilities.getNbt(stack).hasKey(Utilities.getModIdString("vdna"))) {
+                String stab = nbt.getString(Utilities.getModIdString("vstability"));
+                tooltip.add(I18n.format("tooltip.injector.vaccine") + " " + (stab.equals("Stable") ? TextFormatting.GREEN : TextFormatting.RED) + I18n.format("tooltip.injector." + stab.toLowerCase()));
+                tooltip.add(I18n.format("tooltip.injector.dna") + " " + TextFormatting.GREEN + nbt.getString(Utilities.getModIdString("vdna")));
+            }
         }
     }
 
-    private static void applyVaccine(IBioPlayer cap, String dna, boolean bad){
+    public static void applyVaccine(IBioPlayer cap, String dna, boolean bad){
         //vaccine effect
         for(IBioSample smp : cap.getEffectList()){
             if(smp instanceof IVirus){
@@ -75,7 +81,24 @@ public class VaccineInjector extends ItemBionisation {
                         virus.setPower(virus.getPower() + 2);
                     }else {
                         virus.setInfinite(false);
-                        virus.setDuration(1200);
+                        virus.setDuration(VACCINE_CURE_DURATION);
+                    }
+                }
+            }
+        }
+    }
+
+    public static void applyVaccine(IBioMob cap, String dna, boolean bad){
+        //vaccine effect
+        for(IBioSample smp : cap.getEffectList()){
+            if(smp instanceof IVirus){
+                IVirus virus = (IVirus)smp;
+                if(virus.getDNA().equals(dna)){
+                    if(bad){
+                        virus.setPower(virus.getPower() + 2);
+                    }else {
+                        virus.setInfinite(false);
+                        virus.setDuration(VACCINE_CURE_DURATION);
                     }
                 }
             }

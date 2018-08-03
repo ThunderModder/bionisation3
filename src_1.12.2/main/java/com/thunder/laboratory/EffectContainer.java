@@ -57,6 +57,8 @@ public class EffectContainer {
        effects.add(new CureSGreenBacteria());
        effects.add(new CureSeaBacteria());
        effects.add(new EffectImmunity());
+       effects.add(new WeakAntibiotic());
+       effects.add(new StrongAntibiotic());
        effects.add(new GiantVirus());
        effects.add(new PteroVirus());
        effects.add(new EnderVirus());

@@ -3,6 +3,7 @@ package com.thunder.recipe;
 
 import com.thunder.bionisation.Information;
 import com.thunder.block.BlockRegistry;
+import com.thunder.item.Antibiotic;
 import com.thunder.item.ItemRegistry;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -44,6 +45,8 @@ public class RecipeRegistry {
         GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "immunity_receiver"), new ResourceLocation(Information.MOD_ID + ":" + "immunity_receiver"), new ItemStack(ItemRegistry.IMMUNITY_RECEIVER), "CPC", "CRC", " G ", 'C', Items.CLAY_BALL, 'P', ItemRegistry.PROCESSOR, 'R', Items.REDSTONE, 'G', Items.GOLD_NUGGET);
         //bandage
         GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "bandage"), new ResourceLocation(Information.MOD_ID + ":" + "bandage"), new ItemStack(ItemRegistry.BANDAGE), "CC ", "CS ", "   ", 'C', ItemRegistry.CLOTH, 'S', Items.STRING);
+        //splint
+        GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "splint"), new ResourceLocation(Information.MOD_ID + ":" + "splint"), new ItemStack(ItemRegistry.SPLINT), "SCT", "CTC", "TCS", 'C', ItemRegistry.CLOTH, 'S', Items.STRING, 'T', Items.STICK);
         //disinfectant fluid
         GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "disinfectant_fluid"), new ResourceLocation(Information.MOD_ID + ":" + "disinfectant_fluid"), new ItemStack(ItemRegistry.DISINFECTANT_FLUID), "PL ", "CA ", "   ", 'P', Items.POTIONITEM, 'L', BlockRegistry.LIVING_BONE, 'C', BlockRegistry.CRYSTAL_FLOWER, 'A', BlockRegistry.ANCIENT_FLOWER);
         //vaccine injector
@@ -54,5 +57,10 @@ public class RecipeRegistry {
         GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "dna_pattern"), new ResourceLocation(Information.MOD_ID + ":" + "dna_pattern"), new ItemStack(ItemRegistry.DNA_PATTERN), "CGC", "CEC", "CVC", 'C', Items.CLAY_BALL, 'G', Blocks.GLASS, 'E', Items.EMERALD, 'V', ItemRegistry.VIAL);
         //virus sprayer
         GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "virus_sprayer"), new ResourceLocation(Information.MOD_ID + ":" + "virus_sprayer"), new ItemStack(ItemRegistry.VIRUS_SPRAYER), "CRC", "CPC", "CGC", 'C', Items.CLAY_BALL, 'G', Items.GLASS_BOTTLE, 'R', Items.REDSTONE, 'P', ItemRegistry.PROCESSOR);
+        //antibiotics
+        GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "weak_antibiotic"), new ResourceLocation(Information.MOD_ID + ":" + "weak_antibiotic"), Antibiotic.getAntibiotic(0), "PB ", "EA ", "   ", 'P', Items.POTIONITEM, 'B', Items.BONE, 'E', BlockRegistry.ENDER_FLOWER, 'A', BlockRegistry.ANCIENT_FLOWER);
+        GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "strong_antibiotic"), new ResourceLocation(Information.MOD_ID + ":" + "strong_antibiotic"), Antibiotic.getAntibiotic(1), "WE ", "   ", "   ", 'W', Antibiotic.getAntibiotic(0), 'E', ItemRegistry.ENDER_SUBSTANCE);
+        //bio analyzer
+        GameRegistry.addShapedRecipe(new ResourceLocation(Information.MOD_ID + ":" + "bio_analyzer"), new ResourceLocation(Information.MOD_ID + ":" + "bio_analyzer"), new ItemStack(ItemRegistry.BIO_ABALYZER), "RPR", "PFP", "RPR", 'R', Items.REDSTONE, 'P', ItemRegistry.PROCESSOR, 'F', Items.FLINT);
     }
 }

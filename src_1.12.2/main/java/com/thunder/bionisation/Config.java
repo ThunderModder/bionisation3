@@ -102,8 +102,8 @@ public class Config {
     public static int durationWAffinitySymbiont;//-1+
     public static int durationVampirismSymbiont;//-1+
 
-    public static int standartEffectCureDuration;//1200+
-    public static int standartBacteriaCureDuration;//2400+
+    public static int standartEffectCureDuration;//600+
+    public static int standartBacteriaCureDuration;//600+
     public static int standartVirusDuration;//-1+
 
     //machine
@@ -114,7 +114,16 @@ public class Config {
     public static int virusReplicatorProcessTime;//6000+
 
     //biome
-    public static int biomeSpawnWeight;//100+
+    public static int biomeSpawnWeight;//50+
+
+    //disable effect for peaceful mobs
+    public static boolean disableForPeaceful;
+    //disable infected items
+    public static boolean disableVirusMutations;
+    //disable infected items
+    public static boolean disableInfectedItems;
+    //use any armor as bio defence
+    public static boolean useAnyArmorAsBio;
 
     public static void init(){
         Configuration config = Bionisation.getConfig();
@@ -124,21 +133,27 @@ public class Config {
         canSpawnBloodVial = config.getBoolean("Drop blood vials", "Main configurations", false, "If true, mobs will drop blood vials after death.");
         canShowUpdates = config.getBoolean("Show Updates", "Main configurations", true, "If true, Bionisation 3 will show available updates in chat.");
         //structure
-        structureSpawnChance = config.getInt("Abandoned laboratory gen chance", "Structure configurations", 10, 0, 100, "Chance for laboratory spawn. Type 0 to disable spawning.");
-        symbiontSpawnChance = config.getInt("Symbiont gen chance in chests", "Structure configurations", 15, 1, 100, "Chance for symbiont gen in laboratory chests.");
+        structureSpawnChance = config.getInt("Abandoned laboratory gen chance", "Structure configurations", 15, 0, 100, "Chance for laboratory spawn. Type 0 to disable spawning.");
+        symbiontSpawnChance = config.getInt("Symbiont gen chance in chests", "Structure configurations", 25, 1, 100, "Chance for symbiont gen in laboratory chests.");
 
         //other configurations
         fatigueImmunityLevel = config.getInt("Immunity Level Fatigue", "Other configurations", 30, 1, 100, "Immunity level for Fatigue effect.");
         aerVirusImmunityLevel = config.getInt("Immunity Level Aer Virus", "Other configurations", 50, 1, 100, "Immunity level for Aer Virus effect.");
         lackOfBloodBloodLevel = config.getInt("Blood Level Lack Of Blood", "Other configurations", 40, 1, 100, "Blood level for Lack of Blood effect.");
-        revisionChance = config.getInt("Inventory Revision Chance", "Other configurations", 85, 1, 100, "Chance for inventory revision process(Item infection).");
+        revisionChance = config.getInt("Inventory Revision Chance", "Other configurations", 45, 1, 100, "Chance for inventory revision process(Item infection).");
 
         mutationProcessChance = config.getInt("Mutation Process Chance", "Other configurations", 30, 1, 100, "Chance for virus mutation process.");
         mutationProcessDelay = config.getInt("Mutation Process Delay", "Other configurations", 2400, 1, 1000000000, "Interval between virus mutation processes.");
         mutationVirusChance = config.getInt("Mutation Virus Chance", "Other configurations", 15, 1, 100, "Chance for specified virus mutation.");
 
+        disableForPeaceful = config.getBoolean("Disable for peaceful", "Other configurations", false, "If true, viruses and bacteria will avoid peaceful mobs.");
+        disableVirusMutations = config.getBoolean("Disable virus mutations", "Other configurations", false, "If true, virus mutetions will be disabled.");
+        disableInfectedItems = config.getBoolean("Disable infected items", "Other configurations", false, "If true, viruses and bacteria won't infect items in player inventory.");
+        useAnyArmorAsBio = config.getBoolean("Use any armor as Bio", "Other configurations", false, "If true, any armor will be used as Bio Armor and will protect you against Bionisation effects.");
+
+
         //biome
-        biomeSpawnWeight = config.getInt("Biome Spawn Weight", "Biome configurations", 100, 1, 1000000000, "");
+        biomeSpawnWeight = config.getInt("Biome Spawn Weight", "Biome configurations", 50, 1, 1000000000, "");
 
         //machines
         disinfectorProcessTime = config.getInt("Disinfector Process Time", "Machine Configurations", 9600, 0, 1000000000, "");
@@ -149,7 +164,7 @@ public class Config {
 
         //chances
         chanceBleeding = config.getInt("Chance Bleeding", "Effect configurations - chance", 5, 1, 100, "");
-        chanceSunstroke = config.getInt("Chance Sunstroke", "Effect configurations - chance", 35, 1, 100, "");
+        chanceSunstroke = config.getInt("Chance Sunstroke", "Effect configurations - chance", 5, 1, 100, "");
         chanceCold = config.getInt("Chance Cold", "Effect configurations - chance", 20, 1, 100, "");
         chanceFracture = config.getInt("Chance Fracture", "Effect configurations - chance", 10, 1, 100, "");
         chanceFoodPoisoning = config.getInt("Chance Food Poisoning", "Effect configurations - chance", 15, 1, 100, "");
@@ -186,8 +201,8 @@ public class Config {
         //durations
         config.addCustomCategoryComment("Effect configurations - duration", "Type -1 for infinite duration. Type 0 to disable effect.");
 
-        standartEffectCureDuration = config.getInt("Standart Effect Cure Duration", "Effect configurations - duration", 1200, -1, 1000000000, "");
-        standartBacteriaCureDuration = config.getInt("Standart Bacteria Cure Duration", "Effect configurations - duration", 2400, -1, 1000000000, "");
+        standartEffectCureDuration = config.getInt("Standart Effect Cure Duration", "Effect configurations - duration", 600, -1, 1000000000, "");
+        standartBacteriaCureDuration = config.getInt("Standart Bacteria Cure Duration", "Effect configurations - duration", 600, -1, 1000000000, "");
         standartVirusDuration = config.getInt("Standart Virus Duration", "Effect configurations - duration", -1, -1, 1000000000, "");
 
 

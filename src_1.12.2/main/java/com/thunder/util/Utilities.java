@@ -1,5 +1,6 @@
 package com.thunder.util;
 
+import com.thunder.bionisation.Config;
 import com.thunder.bionisation.Information;
 import com.thunder.item.ItemRegistry;
 import com.thunder.laboratory.EffectContainer;
@@ -83,6 +84,7 @@ public class Utilities {
     }
 
     public static boolean hasFullBioArmor(EntityPlayer player){
+        if(Config.useAnyArmorAsBio) return !player.inventory.armorInventory.get(0).isEmpty() && !player.inventory.armorInventory.get(1).isEmpty() && !player.inventory.armorInventory.get(2).isEmpty()  && !player.inventory.armorInventory.get(3).isEmpty();
         return !player.inventory.armorInventory.get(0).isEmpty() && !player.inventory.armorInventory.get(1).isEmpty() && !player.inventory.armorInventory.get(2).isEmpty()  && !player.inventory.armorInventory.get(3).isEmpty() && player.inventory.armorInventory.get(3).getItem() == ItemRegistry.BIO_HELMET && player.inventory.armorInventory.get(2).getItem() == ItemRegistry.BIO_CHEST && player.inventory.armorInventory.get(1).getItem() == ItemRegistry.BIO_LEGGINGS && player.inventory.armorInventory.get(0).getItem() == ItemRegistry.BIO_BOOTS;
     }
 
