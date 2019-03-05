@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "bionisation3:blockvirusreplicator" },
-    "facing=south": { "model": "bionisation3:blockvirusreplicator", "y": 180 },
-    "facing=west":  { "model": "bionisation3:blockvirusreplicator", "y": 270 },
-    "facing=east":  { "model": "bionisation3:blockvirusreplicator", "y": 90 }
-  }
-}

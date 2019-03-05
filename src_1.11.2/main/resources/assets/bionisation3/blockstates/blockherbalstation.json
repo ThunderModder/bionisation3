@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "bionisation3:blockherbalstation" },
-        "facing=south": { "model": "bionisation3:blockherbalstation", "y": 180 },
-        "facing=west":  { "model": "bionisation3:blockherbalstation", "y": 270 },
-        "facing=east":  { "model": "bionisation3:blockherbalstation", "y": 90 }
-    }
-}

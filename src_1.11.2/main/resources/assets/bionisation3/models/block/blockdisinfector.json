@@ -1,8 +1,0 @@
-{
-    "parent": "block/orientable",
-    "textures": {
-        "top": "bionisation3:blocks/blockdisinfector_top",
-        "front": "bionisation3:blocks/blockdisinfector_front_on",
-        "side": "bionisation3:blocks/blockdisinfector_side"
-    }
-}
