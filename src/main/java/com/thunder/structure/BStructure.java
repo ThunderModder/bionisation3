@@ -84,6 +84,10 @@ public class BStructure {
     }
 
     public static void generateLaboratory(int rarity, World world, Random random, int chunkX, int chunkZ){
+        if (world.provider.getDimension() != 0) {
+            return;
+        }
+        // TODO: Add whitelist dimIds
 
         int x = (chunkX << 4) + 8;
         int z = (chunkZ << 4) + 8;
