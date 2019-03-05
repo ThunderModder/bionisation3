@@ -13,7 +13,7 @@ public class ItemBionisation extends Item {
 
     public ItemBionisation(String unlocalizedName, int stackCount){
         this.setMaxStackSize(stackCount);
-        this.setUnlocalizedName(unlocalizedName);
+        this.setTranslationKey(unlocalizedName);
         this.setRegistryName(unlocalizedName);
         this.setCreativeTab(CommonProxy.tabBionisation);
         ForgeRegistries.ITEMS.register(this);
@@ -23,7 +23,7 @@ public class ItemBionisation extends Item {
         this.setMaxStackSize(64);
         String className = this.getClass().getName();
         String itemName = className.substring(className.lastIndexOf(".") + 1).toLowerCase();
-        this.setUnlocalizedName(itemName);
+        this.setTranslationKey(itemName);
         this.setRegistryName(itemName);
         this.setCreativeTab(CommonProxy.tabBionisation);
         ForgeRegistries.ITEMS.register(this);

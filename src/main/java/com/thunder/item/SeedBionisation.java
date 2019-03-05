@@ -11,7 +11,7 @@ public class SeedBionisation extends ItemSeeds {
 
     public SeedBionisation(String ulocalizedName, Block block) {
         super(block, Blocks.FARMLAND);
-        this.setUnlocalizedName(ulocalizedName);
+        this.setTranslationKey(ulocalizedName);
         this.setRegistryName(ulocalizedName);
         this.setCreativeTab(CommonProxy.tabBionisation);
         this.setMaxStackSize(64);

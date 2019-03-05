@@ -35,7 +35,7 @@ public class BlockBMachine extends BlockContainer {
 
     public BlockBMachine(String className, int guiId, Class<? extends TileBMachine> tile){
         super(Material.ROCK);
-        this.setUnlocalizedName(className);
+        this.setTranslationKey(className);
         this.setRegistryName(className);
         this.setCreativeTab(CommonProxy.tabBionisation);
         this.guiId = guiId;
@@ -137,7 +137,7 @@ public class BlockBMachine extends BlockContainer {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        EnumFacing enumfacing = EnumFacing.getFront(meta);
+        EnumFacing enumfacing = EnumFacing.byIndex(meta);
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH;
         }

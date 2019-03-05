@@ -25,7 +25,7 @@ public class FlowerBionisation extends BlockBush {
 
     public FlowerBionisation(String className, AxisAlignedBB axis, EnumPlantType type, boolean tex, @Nullable Block... ground) {
         super(Material.PLANTS);
-        this.setUnlocalizedName(className);
+        this.setTranslationKey(className);
         this.setRegistryName(className);
         this.setSoundType(SoundType.PLANT);
         this.ground = ground;

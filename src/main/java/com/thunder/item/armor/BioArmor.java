@@ -10,7 +10,7 @@ public class BioArmor extends ItemArmor {
 
     public BioArmor(String unlocalizedName, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn){
         super(materialIn, renderIndexIn, equipmentSlotIn);
-        this.setUnlocalizedName(unlocalizedName);
+        this.setTranslationKey(unlocalizedName);
         this.setRegistryName(unlocalizedName);
         this.setCreativeTab(CommonProxy.tabBionisation);
         ForgeRegistries.ITEMS.register(this);
