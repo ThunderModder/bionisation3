@@ -17,7 +17,7 @@ public class RecipeRegistry {
     public static void  init(){
 
         //ender core
-        GameRegistry.addShapelessRecipe(new ResourceLocation(Information.MOD_ID + ":" + "ender_core"), new ResourceLocation(Information.MOD_ID + ":" + "ender_core"), new ItemStack(ItemRegistry.ENDER_CORE) , Ingredient.fromItem(ItemRegistry.ENDER_CORE), Ingredient.fromItem(Items.ENDER_PEARL));
+        GameRegistry.addShapelessRecipe(new ResourceLocation(Information.MOD_ID + ":" + "ender_core"), new ResourceLocation(Information.MOD_ID + ":" + "ender_core"), new ItemStack(ItemRegistry.ENDER_CORE) , Ingredient.fromItem(ItemRegistry.ENDER_SUBSTANCE), Ingredient.fromItem(Items.ENDER_PEARL));
         //glowing liquid
         GameRegistry.addShapelessRecipe(new ResourceLocation(Information.MOD_ID + ":" + "glowing_liquid"), new ResourceLocation(Information.MOD_ID + ":" + "glowing_liquid"), new ItemStack(ItemRegistry.GLOWING_LIQUID), Ingredient.fromItem(ItemRegistry.STRANGE_LIQUID), Ingredient.fromItem(Items.GLOWSTONE_DUST));
         //book
