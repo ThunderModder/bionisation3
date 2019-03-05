@@ -69,7 +69,9 @@ public class ItemManager {
     private static void fromItemsToPlayer(EntityPlayer player, NonNullList<ItemStack> inventory, IBioPlayer cap){
         for(ItemStack stack : inventory){
             if(!stack.isEmpty()){
-                NBTTagCompound nbt = Utilities.getNbt(stack);
+                if (!stack.hasTagCompound())
+                    continue;
+                NBTTagCompound nbt = stack.getTagCompound();
                 //add common effects
                 if(nbt.hasKey(KEY)){
                     try {
@@ -95,7 +97,10 @@ public class ItemManager {
             if(!stack.isEmpty()){
                 NBTTagCompound nbt = Utilities.getNbt(stack);
                 try {
-                    nbt.setTag(key, Utilities.<SampleBundle>objListToNBT(effects));
+                    NBTTagList list = Utilities.<SampleBundle>objListToNBT(effects);
+                    if (!list.isEmpty()) {
+                        nbt.setTag(key, list);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
