@@ -1,1 +1,1 @@
-1.0.6_https://minecraft.curseforge.com/projects/bionisation-3/files/2596930_Balancing changes:_reduced cure effects duration for bacteria and effects(except viruses);_reduced chance to get infection from infected items;_increased structure and Symbionts spawn chance;_reduced Sunstroke effect chance and more._See the changelog for more details.
+1.0.7_https://minecraft.curseforge.com/projects/bionisation-3/files/2683940_Fixed recipes and structure spawning.Probably fixed stackable items bug with nbt.
