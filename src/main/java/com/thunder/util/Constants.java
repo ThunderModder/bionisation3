@@ -100,7 +100,7 @@ public class Constants {
     public static final int ID_BLOOD_VIRUS = 56;
     public static final int ID_CREEPER_VIRUS = 57;
     public static final int ID_RED_VIRUS = 58;
-    public static final int ID_OCEAN_VIRUS = 58;
+    public static final int ID_OCEAN_VIRUS = 70;
     public static final int ID_ARCHAIC_VIRUS = 59;
     public static final int ID_SKULL_VIRUS = 60;
     public static final int ID_RABIES_VIRUS = 61;
@@ -113,6 +113,8 @@ public class Constants {
     public static final int ID_EW_SYMBIOSIS = 67;
     public static final int ID_OV_SYMBIOSIS = 68;
     public static final int ID_RS_SYMBIOSIS = 69;
+
+    // WARINGN: ID 70 taken! @ID_OCEAN_VIRUS
 
     public static final int ID_POWER_SYMBIONT = 150;
     public static final int ID_RESISTANCE_SYMBIONT = 151;
