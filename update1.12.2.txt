@@ -1,1 +1,1 @@
-1.0.7_https://minecraft.curseforge.com/projects/bionisation-3/files/2683940_Fixed recipes and structure spawning.Probably fixed stackable items bug with nbt.
+1.0.8_https://minecraft.curseforge.com/projects/bionisation-3/files/2702421_Fixed Red and Ocean Virus ID conflict
