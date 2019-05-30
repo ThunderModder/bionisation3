@@ -47,15 +47,17 @@ public class SyncAllCapMessage implements IMessage {
         @Override
         public IMessage onMessage(SyncAllCapMessage message, MessageContext ctx) {
             Minecraft mc = Minecraft.getMinecraft();
-            if(mc.player != null){
-                World world = mc.player.world;
-                Entity ent = world.getEntityByID(message.entId);
-                if(ent instanceof EntityPlayer){
-                    IBioPlayer cap = ((EntityPlayer)ent).getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-                    if(cap != null)
-                        cap.readFromNBT(message.nbt);
+            mc.addScheduledTask(() -> {
+                if(mc.player != null){
+                    World world = mc.player.world;
+                    Entity ent = world.getEntityByID(message.entId);
+                    if(ent instanceof EntityPlayer){
+                        IBioPlayer cap = ent.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
+                        if(cap != null)
+                            cap.readFromNBT(message.nbt);
+                    }
                 }
-            }
+            });
             return null;
         }
     }

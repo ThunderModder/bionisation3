@@ -34,9 +34,11 @@ public class SyncBloodCapMessage implements IMessage {
         @Override
         public IMessage onMessage(SyncBloodCapMessage message, MessageContext ctx) {
             Minecraft mc = Minecraft.getMinecraft();
-            IBioPlayer cap = mc.player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
-            if(cap != null)
-                cap.setBloodLevel(message.value);
+            mc.addScheduledTask(() -> {
+                IBioPlayer cap = mc.player.getCapability(BioPlayerProvider.BIO_PLAYER_CAPABILITY, null);
+                if(cap != null)
+                    cap.setBloodLevel(message.value);
+            });
             return null;
         }
     }

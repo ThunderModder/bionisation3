@@ -2,6 +2,7 @@ package com.thunder.network;
 
 import com.thunder.gui.BAnalyzerGuiScreen;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -32,7 +33,9 @@ public class OpenAnalyzerGuiMessage implements IMessage {
 
         @Override
         public IMessage onMessage(OpenAnalyzerGuiMessage message, MessageContext ctx) {
-            FMLCommonHandler.instance().showGuiScreen(new BAnalyzerGuiScreen(message.info));
+            Minecraft.getMinecraft().addScheduledTask(() -> {
+                FMLCommonHandler.instance().showGuiScreen(new BAnalyzerGuiScreen(message.info));
+            });
             return null;
         }
     }
