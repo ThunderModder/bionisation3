@@ -1,1 +1,1 @@
-1.0.9_https://minecraft.curseforge.com/projects/bionisation-3/files/2717823_Fixed some packets issues
+1.0.10_https://www.curseforge.com/minecraft/mc-mods/bionisation-3/files/2733238_Fixed NBT issues in Disinfector
