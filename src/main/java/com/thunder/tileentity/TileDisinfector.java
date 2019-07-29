@@ -44,6 +44,9 @@ public class TileDisinfector extends TileBMachine {
                 NBTTagCompound tag = Utilities.getNbt(items.get(i));
                 if(tag.hasKey(KEY))
                     tag.removeTag(KEY);
+                if (tag.isEmpty()) {
+                    items.get(i).setTagCompound(null);
+                }
             }
         }
     }
