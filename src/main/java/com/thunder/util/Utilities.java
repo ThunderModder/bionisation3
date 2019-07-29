@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -24,7 +25,13 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -257,36 +264,28 @@ public class Utilities {
             attr.removeModifier(modifier);
     }
 
-    public static void addPotionEffect(EntityLivingBase e, int id, int power, int duration, boolean wasPowerChanged){
-        boolean canAdd = false;
-        if(e.isPotionActive(Potion.getPotionById(id))){
-            PotionEffect p = e.getActivePotionEffect(Potion.getPotionById(id));
-            if(p.getAmplifier() < power || p.getDuration() <= 1)
-                canAdd = true;
-            if(wasPowerChanged) e.removePotionEffect(Potion.getPotionById(id));
-        }else
-            canAdd = true;
-        if(canAdd){
-            if (duration == -1)
-                e.addPotionEffect(new PotionEffect(Potion.getPotionById(id), Integer.MAX_VALUE, power));
-            else
-                e.addPotionEffect(new PotionEffect(Potion.getPotionById(id), duration, power));
-        }
+    public static void addPotionEffect(EntityLivingBase e, int id, int power, int duration) {
+        addPotionEffect(e, id, power, duration, false);
     }
 
-    public static void addPotionEffect(EntityLivingBase e, int id, int power, int duration){
+    public static void addPotionEffect(EntityLivingBase e, int id, int power, int duration, boolean wasPowerChanged) {
+        if (e instanceof EntityArmorStand) {
+            return;
+        }
         boolean canAdd = false;
-        if(e.isPotionActive(Potion.getPotionById(id))){
-            PotionEffect p = e.getActivePotionEffect(Potion.getPotionById(id));
-            if(p.getAmplifier() < power  || p.getDuration() <= 1)
+        Potion potion = Potion.getPotionById(id);
+        if (e.isPotionActive(potion)) {
+            PotionEffect p = e.getActivePotionEffect(potion);
+            if (p.getAmplifier() < power || p.getDuration() <= 1)
                 canAdd = true;
-        }else
+            if (wasPowerChanged) e.removePotionEffect(potion);
+        } else
             canAdd = true;
-        if(canAdd){
+        if (canAdd) {
             if (duration == -1)
-                e.addPotionEffect(new PotionEffect(Potion.getPotionById(id), Integer.MAX_VALUE, power));
+                e.addPotionEffect(new PotionEffect(potion, Integer.MAX_VALUE, power));
             else
-                e.addPotionEffect(new PotionEffect(Potion.getPotionById(id), duration, power));
+                e.addPotionEffect(new PotionEffect(potion, duration, power));
         }
     }
 
