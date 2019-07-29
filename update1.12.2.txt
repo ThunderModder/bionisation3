@@ -1,1 +1,1 @@
-1.0.10_https://www.curseforge.com/minecraft/mc-mods/bionisation-3/files/2733238_Fixed NBT issues in Disinfector
+1.0.11_https://www.curseforge.com/minecraft/mc-mods/bionisation-3/files/2750836_Fixed effect spreading on Armor Stand
