@@ -1,1 +1,1 @@
-1.0.11_https://www.curseforge.com/minecraft/mc-mods/bionisation-3/files/2750836_Fixed effect spreading on Armor Stand
+1.0.0.1_https://www.curseforge.com/minecraft/mc-mods/bionisation-4_Bionisation 4 for 1.16.5 is released!
